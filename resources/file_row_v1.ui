@@ -69,6 +69,7 @@
         <property name="margin-start">10</property>
         <property name="margin-end">10</property>
         <property name="stock">gtk-media-play</property>
+        <property name="icon_size">6</property>
       </object>
       <packing>
         <property name="expand">True</property>

@@ -41,7 +41,8 @@
             <property name="margin-end">4</property>
             <property name="margin-top">4</property>
             <property name="margin-bottom">4</property>
-            <property name="label" translatable="yes">name_label	</property>
+            <property name="label" translatable="yes">name_label	name_label	name_label	name_label	name_label	</property>
+            <property name="ellipsize">end</property>
             <property name="single-line-mode">True</property>
             <attributes>
               <attribute name="size" value="12306"/>

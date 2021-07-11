@@ -42,7 +42,7 @@ class FileRow(Gtk.ListBoxRow):
     
     
     def set_status_image(self, request_context_status):
-        icon_size = Gtk.IconSize.BUTTON
+        icon_size = Gtk.IconSize.MENU
         if RequestContextStatus.Idle == request_context_status: 
             self._status_image.hide()
         elif RequestContextStatus.Running == request_context_status:
