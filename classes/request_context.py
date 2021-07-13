@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+from .log import Log as log
 
 from classes.log import Log as log
 
@@ -67,16 +68,34 @@ class RequestContextEvent:
 
         
     def get_source_text(self):
-        return "#{}\n#{}\n{}\n".format(self.title, self.description, self.log)
+        ret = ""
+        if self.title:
+            ret += "# {}\n".format(self.title)
+        if self.description:
+            ret += "# {}\n".format(self.description)
+        if self.log:
+            ret += "{}\n".format(self.log)
+        return ret
 
 
 class RequestContext:
 
     def create_from_json_file(endpoint_id, file_path):
-        with open(file_path) as json_file:
-            json_dict = json.load(json_file)
-        return RequestContext(endpoint_id, json_dict, file_path)
-
+        log.debug("RequestContext.create_from_json_file({}, {})".format(
+                                                                   endpoint_id,
+                                                                   file_path))
+        ctx = None
+        try:
+            with open(file_path) as json_file:
+                json_dict = json.load(json_file)
+            ctx = RequestContext(endpoint_id, json_dict, file_path)
+        except Exception as e:
+            err_dict = {}
+            err_dict["error"] = "File JSON malformato: {}".format(str(e))
+            err_dict["path"] = file_path
+            ctx = RequestContext(endpoint_id, err_dict, file_path)
+            ctx.status = RequestContextStatus.Error
+        return ctx 
 
     def build_identier(file_path):
         return os.path.basename(file_path)
@@ -196,6 +215,19 @@ class RequestContext:
         self._events = []
         self.status = RequestContextStatus.Idle
 
+    
+    def reload(self):
+        try:
+            with open(self.file_path) as json_file:
+                json_dict = json.load(json_file)
+            ctx = RequestContext(endpoint_id, json_dict, file_path)
+        except Exception as e:
+            err_dict = {}
+            err_dict["error"] = "File JSON malformato: {}".format(str(e))
+            err_dict["path"] = file_path
+            ctx = RequestContext(endpoint_id, err_dict, file_path)
+            ctx.status = RequestContextStatus.Error
+        return ctx 
     
     def _find_key_value(self, json_dict, key):        
         results = self._find_key_values(json_dict, key)

@@ -49,6 +49,22 @@
                 ,"grant_type":"password"
             }
         }
+        ,{
+            "identifier":"nen-qa"
+            ,"visible_name":"NeN QA"
+            ,"requests_files_path":"/home/francesco/pCloudDrive/Blur/bexi/nen-qa"
+            ,"server_url":"https://nentestapi.blucrm.it"
+            ,"token_route":"identity-qa/connect/token"
+            ,"adapter_route":"externalbffservicesapigw-qa/api/v1/FQ/FrontOffice/StartNewTask"
+            ,"credentials": {
+                "username":"demouser@blucrm.com"
+                ,"password":"Pass@word1"
+                ,"client_secret":"secret"
+                ,"client_id":"js"
+                ,"scope":"frontoffice"
+                ,"grant_type":"password"
+            }
+        }
     ]
 }
 

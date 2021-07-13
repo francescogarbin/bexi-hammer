@@ -440,34 +440,48 @@ class MainWindow(Gtk.ApplicationWindow):
             bexi = BEXiAdapter(endpoint.token_url, endpoint.adapter_url)
             
             event = request_context.add_log_event(
-                                "GET token autenticazione...",
-                                "Endpoint: {}...".format(endpoint.token_url))
+                                "Invio richiesta GET token autenticazione...",
+                                "Endpoint: {}".format(endpoint.token_url))
             GLib.idle_add(self._append_event, request_context, event)
-            
-            event = request_context.add_log_event(
-                                "Invio richiesta con method:POST...",
+            token_resp = bexi.get_token(credentials)
+            if token_resp:
+                if 200 == token_resp.status_code:
+                    token_json = token_resp.json() 
+                    event = request_context.add_completion_event(
+                                    "Token ricevuto dal server",
+                                    "Endpoint: {}".format(endpoint.token_url),
+                                    json.dumps(token_json, indent=4))                
+                    GLib.idle_add(self._append_event, request_context, event)            
+                    event = request_context.add_log_event(
+                                "Invio richiesta POST a BEXi Adapter...",
                                 "Endpoint: {}".format(endpoint.adapter_url))
-            GLib.idle_add(self._append_event, request_context, event)
-
-            request_body = self.source_view.text
-            response_json = bexi.post_request(credentials, request_body)
-            if response_json:
-                pretty = json.dumps(response_json, indent=4, sort_keys=False)
-                event = request_context.add_completion_event(
-                                    "Risposta ricevuta dal server",
-                                    "Endpoint: {}".format(endpoint.adapter_url),
-                                    pretty)
+                    GLib.idle_add(self._append_event, request_context, event)
+                    request_body = self.source_view.text
+                    post_resp = bexi.post_start_new_task(token_json, request_body)
+                    if post_resp:
+                        if 200 == post_resp.status_code:
+                            post_json = post_resp.json()
+                            event = request_context.add_completion_event(
+                                        "Risposta ricevuta dal server",
+                                        "Endpoint: {}".format(endpoint.adapter_url),
+                                        json.dumps(post_json, indent=4))
+                            GLib.idle_add(self._append_event, request_context, event)
+                        else:
+                            raise Exception("Il server ha ritornato un errore con status code {}".format(post_resp.status_code))
+                    else:
+                        raise Exception("Il server non ha restituito una risposta valida.")
+        
+                else:
+                    raise Exception("Il server ha ritornato un errore con status code {}".format(token_resp.status_code))
+        
             else:
-                event = request_context.add_error_event(
-                                    "Nessuna risposta dal server!",
-                                    "Endpoint: {}".format(endpoint.adapter_url))
-            GLib.idle_add(self._append_event, request_context, event)
+                raise Exception("Il server non ha restituito una risposta valida.")
         except Exception as e:
             event = request_context.add_error_event(
-                                "Nessuna risposta dal server!",
+                                "La chiamata non è terminata correttamente",
                                 str(e))
             GLib.idle_add(self._append_event, request_context, event)
-            log.warn("Exception raised in MainWindow._post_request()!")
+            log.warn("Exception in MainWindow._post_request()!")
             log.exception(e)                    
         finally:
             GLib.idle_add(self._inflect_request_context_status, request_context)
