@@ -1,21 +1,20 @@
 import json
 import gi
+import appdirs
 from pathlib import Path
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from .endpoint import Endpoint
 
-
 class Settings:
-
-    _default_path = "data/settings.json"
     
     @staticmethod
     def create_settings_file():
+        path = Settings.get_file_path()
         dict = {}
         endpoint = {}
         endpoint["identifier"] = "dummy"
-        endpoint["visible_name"] = "Imposta {}".format(Settings._default_path)
+        endpoint["visible_name"] = "Imposta {}".format(path)
         endpoint["requests_files_path"] = "."
         endpoint["server_url"] = "https://tuoserver.com"
         endpoint["token_route"] = "token"
@@ -30,23 +29,27 @@ class Settings:
         dict["version"] = "1.0"
         dict["endpoints"] = [endpoint]
         json_text = json.dumps(dict, indent=4, sort_keys=False)
-        with open(Settings._default_path, "w") as text_file:
+        with open(path, "w") as text_file:
             text_file.write(json_text)
 
 
     @staticmethod
     def settings_file_exists():
-        settings_file = Path(Settings._default_path)
-        return settings_file.is_file()
+        path = Path(Settings.get_file_path())
+        return path.is_file()
+
+
+    @staticmethod
+    def get_file_path():
+        return appdirs.user_config_dir(appname="bexi-hammer")
 
 
     def __init__(self):
         self._settings = None
-        if self.settings_file_exists():
-            with open(self._default_path) as json_file:
-                self._settings = json.load(json_file)
+        with open(Settings.get_file_path(), 'r') as json_file:
+            self._settings = json.load(json_file)
 
-
+    
     def get_endpoints(self):
         endpoints = []
         if self._settings:
@@ -118,3 +121,4 @@ class Settings:
             return endpoint[attribute_name]
         return None
     
+

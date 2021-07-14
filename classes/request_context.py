@@ -1,7 +1,6 @@
 import os
 import sys
 import json
-from .log import Log as log
 from .request_context_event import RequestContextEvent
 
 class RequestOutcome:
@@ -27,9 +26,6 @@ class RequestContextStatus:
 class RequestContext:
 
     def create_from_json_file(endpoint_id, file_path):
-        log.debug("RequestContext.create_from_json_file({}, {})".format(
-                                                                   endpoint_id,
-                                                                   file_path))
         ctx = None
         try:
             with open(file_path) as json_file:

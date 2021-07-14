@@ -2,13 +2,11 @@ import os
 import sys
 import json
 import threading
-import logging
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from gi.repository import GLib
 from gi.repository import GObject
-from .log import Log as log
 from .file_row import FileRow
 from .source_view import SourceView
 from .helpers import Helpers
@@ -18,6 +16,8 @@ from .request_context import RequestContextEvent
 from .request_context import RequestContextStatus
 from .endpoint import Endpoint
 
+
+import logging
 log = logging.getLogger('bexi-hammer')
 hdlr = logging.FileHandler('bexi-hammer.log')
 formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
@@ -25,6 +25,7 @@ hdlr.setFormatter(formatter)
 log.addHandler(hdlr)
 log.addHandler(logging.StreamHandler(sys.stdout))
 log.setLevel(logging.DEBUG)
+
 
 @Gtk.Template(filename="resources/main_window_v1.ui")
 class MainWindow(Gtk.ApplicationWindow):
@@ -465,8 +466,7 @@ class MainWindow(Gtk.ApplicationWindow):
                                 "Dinosauro, qualcosa è andato storto!",
                                 str(e))
             GLib.idle_add(self._append_event, request_context, event)
-            log.warn("Exception in MainWindow._post_request()!")
-            log.exception(e)                    
+            log.error("Exception in MainWindow._post_request()! {}".format(str(e)))
         finally:
             GLib.idle_add(self._inflect_request_context_status, request_context)
             GLib.idle_add(self._set_files_listbox_row_status, request_context)

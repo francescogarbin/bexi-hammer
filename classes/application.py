@@ -4,7 +4,6 @@ import json
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import GLib, Gio, Gtk
-
 from classes.main_window import MainWindow
 from classes.settings import Settings
 from classes.request_context import RequestContext
@@ -12,27 +11,30 @@ from classes.endpoint import Endpoint
 
 class Application(Gtk.Application):
 
+    ID = "org.blucrm.bexi-hammer"
+    NAME = "bexi-hammer"
+    VISIBLE_NAME = "BEXi Hammer"
+    
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, application_id="org.francesco.bexi-hammer",
-            flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
-            **kwargs
-        )
+        super().__init__(*args,
+                         application_id=Application.ID,
+                         flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
+                         **kwargs)
         self.window = None
-        self.add_main_option(
-            "test",
-            ord("t"),
-            GLib.OptionFlags.NONE,
-            GLib.OptionArg.NONE,
-            "Command line test",
-            None,
-        )
-        
+        self.add_main_option("test",
+                             ord("t"),
+                             GLib.OptionFlags.NONE,
+                             GLib.OptionArg.NONE,
+                             "Command line test",
+                             None)
         self._settings = self._load_settings()
         if self._settings:
             self._endpoints = self.load_endpoints(self._settings)
         
+        
     def reload_endpoints(self):
         self._endpoints = self.load_endpoints(self._settings)
+        
         
     def load_endpoints(self, settings):
         endpoints = {}
@@ -48,29 +50,35 @@ class Application(Gtk.Application):
             endpoints[id] = e
         return endpoints
 
+
     def add_request_context_from_file(self, endpoint_id, file_path):
         ctx = RequestContext.create_from_json_file(endpoint_id, file_path)
         self._endpoints[endpoint_id].requests[ctx.identifier] = ctx
         return ctx
+
     
     def get_endpoints(self):
         return self._endpoints
+
         
     def get_endpoint(self, endpoint_id):
         if endpoint_id in self._endpoints:
             return self._endpoints[endpoint_id]
         return None
+
             
     def get_request_contexts(self, endpoint_id):
         if endpoint_id in self._endpoints:        
             return self._endpoints[endpoint_id].requests
         return None
 
+
     def get_request_context(self, endpoint_id, request_context_id):
         if endpoint_id in self._endpoints:
             if request_context_id in self._endpoints[endpoint_id].requests:
                 return self._endpoints[endpoint_id].requests[request_context_id]
         return None
+
 
     def get_settings(self):
         if None == self._settings:
