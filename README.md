@@ -16,7 +16,7 @@ Abbiamo in previsione di fornire un riquadro di dialogo per la configurazione de
 
 Su Linux, trovi il file di configurazione a questo percorso:
 
-<pre><code>/home/tuo_utente/.local/config/bexihammer</code></pre>
+<pre><code>/home/tuo_utente/.config/bexihammer</code></pre>
 
 Il file di configurazione è in formato JSON e può ospitare una collection di endpoint. Apri il file di configurazione per trovare un esempio "dummy" di un endpoint. Rispettando la sintassi, puoi aggiungerne quanti ne vuoi.
 
