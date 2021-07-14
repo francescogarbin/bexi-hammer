@@ -28,7 +28,7 @@ La configurazione di un endpoint prevede pochi campi, eccoli nell'esempio sotto.
             "identifier":"primo-endpoint"
             ,"visible_name":"Il mio primo endpoint"
             ,"requests_files_path":"/home/tuonome/richieste-del-primo-endpoint"
-            ,"server_url":"https://primo.bexi.com"
+            ,"server_url":"https://primo.dominio.com"
             ,"token_route":"IBexAdapter/token"
             ,"adapter_route":"IBexAdapter/api/FrontOffice/startNewTask"
             ,"credentials": {
@@ -44,7 +44,7 @@ La configurazione di un endpoint prevede pochi campi, eccoli nell'esempio sotto.
             "identifier":"secondo-endpoint"
             ,"visible_name":"Il mio secondo endpoint"
             ,"requests_files_path":"/home/tuonome/secondo-endpoint-richieste"
-            ,"server_url":"https://secondo.qualcheserver.com"
+            ,"server_url":"https://secondo.altrodominio.com"
             ,"token_route":"IBexAdapter/token"
             ,"adapter_route":"IBexAdapter/api/FrontOffice/startNewTask"
             ,"credentials": {
@@ -63,6 +63,16 @@ La configurazione di un endpoint prevede pochi campi, eccoli nell'esempio sotto.
 Il file di configurazione è in formato JSON e può ospitare una collection di endpoint. Nell'esempio sopra ne trovi inseriti un paio. BluCRM ti comunicherà tutte le coordinata necessarie degli endpoint e le relative credenziali.
 
 Apri il file di configurazione per trovare un esempio "dummy" di un endpoint, rispettando la sintassi, sopra esemplificata, puoi aggiungerne quanti ne vuoi.
+
+### Aggiungere file di richiesta
+
+Nel file di configurazione degli endpoint trovi il campo <pre><code>requests_files_path</code></pre> il cui valore punta ad una directory presente sul tuo file system.
+
+Copia i file di richiesta all'interno di quella directory per visualizzarli automaticamente nella lista richieste.
+
+Puoi anche puntare ad una directory di rete o condivisa, BEXi Hammer leggerà i file dalla cartella di rete: questa funzionalità è molto utile quando lavori in team con un analista o un tester che produce richieste per te. Oppure per mantenere in un unico posto l'interno portfolio di richieste utilizzabili da più persone nel tuo team.
+
+Se, mentre usi l'applicazione, aggiungi nuove richieste alla directory puntata da <pre><code>requests_files_path</code></pre>, fai clic sul button <pre><code>Aggiorna</code></pre> per caricarle.
 
 ### Requisiti
 
@@ -103,7 +113,7 @@ BEXi Hammer è un'applicazione che ha funzioni dimostrative, il codice è rilasc
   <li>Dialogo Informazioni</li>
   <li>Dialogo Impostazioni</li>
   <li>Pacchetto di installazione FlatPack per sistemi Linux</li>
-  <li>Crea nuovi file con button "Nuovo" e editing con sintassi JSON evidenziata</li>
+  <li>Crea nuovi file con button "Nuovo"</li>
 </ul>
 
 ### Get in touch!
