@@ -70,7 +70,7 @@ Nel file di configurazione degli endpoint trovi il campo <pre><code>requests_fil
 
 Copia i file di richiesta all'interno di quella directory per visualizzarli automaticamente nella lista richieste.
 
-Puoi anche puntare ad una directory di rete o condivisa, BEXi Hammer leggerà i file dalla cartella di rete: questa funzionalità è molto utile quando lavori in team con un analista o un tester che produce richieste per te. Oppure per mantenere in un unico posto l'interno portfolio di richieste utilizzabili da più persone nel tuo team.
+Puoi anche puntare <code>requests_files_path</code> ad una directory di rete o condivisa; BEXi Hammer leggerà i file dalla cartella di rete. Questa funzionalità è molto utile quando lavori in team con un analista o un tester che produce richieste per te. Oppure per mantenere in un unico posto l'interno portfolio di richieste utilizzabili da più persone nel tuo team.
 
 Se, mentre usi l'applicazione, aggiungi nuove richieste alla directory puntata da <code>requests_files_path</code>, fai clic sul button <code>Aggiorna</code>, collocato alla base della lista richieste, per caricarle.
 
@@ -118,5 +118,4 @@ BEXi Hammer è un'applicazione che ha funzioni dimostrative, il codice è rilasc
 
 ### Get in touch!
 
-Per contatti e informazioni scrivimi a francescogarbin@gmail.com, mi farebbe piacere sare cosa pensi del progetto e se hai voglia di dare una mano.
-
+BEXi Hammer è il risultato del lavoro di qualche weekend. Mi ha aiutato moltissimo a capire la logica delle chiamate BEXi e mi sono divertito una cifra a scriverlo. Se ne hai voglia, scrivimi a francescogarbin@gmail.com: mi farebbe piacere avere dei suggerimenti :-)
