@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Name=BEXi Hammer
+Comment=Invoca facilmente servizi BEXi
+Path=/home/francesco/.local/share/bexi-hammer/
+Exec="/home/francesco/.local/share/bexi-hammer/bexi-hammer.py"
+Icon=/home/francesco/.local/share/bexi-hammer/resources/bexi-hammer-128x128.png
+Terminal=false
+Type=Application
+Categories=Utility;Application;
+StartupNotify=true
+TryExec=/home/francesco/.local/share/bexi-hammer/bexi-hammer.py
