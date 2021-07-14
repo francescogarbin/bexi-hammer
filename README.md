@@ -38,7 +38,10 @@ BEXi Hammer è un'applicazione che ha funzioni dimostrative, il codice è rilasc
 ### Roadmap di sviluppo
 
 #### Versione 1.1a
-Dialogo Informazioni
-Dialogo Impostazioni
-Pacchetto di installazione FlatPack per Linux
-Crea nuovi file da zero tramite editor con sintassi JSON evidenziata
+
+<ul>
+  <li>Dialogo Informazioni</li>
+  <li>Dialogo Impostazioni</li>
+  <li>Pacchetto di installazione FlatPack per sistemi Linux</li>
+  <li>Crea nuovi file con button "Nuovo" e editing con sintassi JSON evidenziata</li>
+</ul>
