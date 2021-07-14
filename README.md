@@ -1,8 +1,24 @@
 # BluCRM BEXi Hammer
 
+BEXi Hammer semplifica i test di chiamata a BluCRM BEXiAdapter con un ambiente grafico che mostra chiaramente le richieste disponibili e ne permette l'esecuzione in pochi clic del mouse.   
+
 ![bexi-hammer-screenshot-1](https://user-images.githubusercontent.com/571018/125612831-0824307c-7b8b-45b2-b0e8-1a90d058d7ab.png)
 
-BEXi Hammer semplifica i test di chiamata a BluCRM BEXiAdapter.
+La lista delle richieste, sulla sinitra, riporta l'elenco dei file di richiesta disponibili per l'endpoint selezionato nella combo box. Il pannello di destra, chiamato Log, riporta il tracciato JSON della richiesta attualmente selezionata con sintax-highlight per facilitarne la lettura.
+
+Puoi lanciare la richiesta selezionata nella lista richieste con un clic sul pulsante Esegui... nella toolbar. Il Log ti aggiornerà con tutti i progressi della chiamata al servizio BluCRM BEXi previsto dalla richiesta.
+
+BEXi Hammer è un'applicazione multi-threading e può lanciare più richieste contemporaneamente. Lancia la seconda richiesta mentre la prima è in esecuzione e così via.
+
+### Gli Endpoint
+
+Abbiamo in previsione di fornire un riquadro di dialogo per la configurazione degli endpoint, per ora tuttavia vorrai editare il file di configurazione che trovi in una directory sul tuo sistema operativo.
+
+Su Linux, trovi il file di configurazione a questo percorso:
+
+<pre><code>/home/tuo_utente/.local/config/bexihammer</code></pre>
+
+Il file di configurazione è in formato JSON e può ospitare una collection di endpoint. Apri il file di configurazione per trovare un esempio "dummy" di un endpoint. Rispettando la sintassi, puoi aggiungerne quanti ne vuoi.
 
 ### Requisiti
 
