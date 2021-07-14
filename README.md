@@ -1,4 +1,4 @@
-# BluCRM BEXi Hammer
+# ![bexi-hammer-48x48](https://user-images.githubusercontent.com/571018/125659123-f532ccdd-c098-41ea-b6d5-fc7bd393fbc7.png) BluCRM BEXi Hammer
 
 BEXi Hammer semplifica i test di chiamata a BluCRM BEXiAdapter con un ambiente grafico che mostra chiaramente le richieste disponibili e ne permette l'esecuzione in pochi clic del mouse.   
 
