@@ -59,6 +59,11 @@ class MainWindow(Gtk.ApplicationWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.filename_label.set_text("Nessun file selezionato")
+        self.filepath_label.set_text("--")
+        self.token_url_label.set_text("--")
+        self.adapter_url_label.set_text("--")
+        
         settings = self.app.get_settings()
         if not settings:
             self._show_alert_dialog("Impostazioni non trovate",
@@ -96,6 +101,7 @@ class MainWindow(Gtk.ApplicationWindow):
         
         self._refresh_files_listbox(endpoint_id)
         self._set_stock_status_text("environment_ready")
+        
         self.files_listbox.show()
         self.show_all()
         self._hide_files_listbox_statuses()
@@ -307,14 +313,14 @@ class MainWindow(Gtk.ApplicationWindow):
             endpoint = settings.get_endpoint(endpoint_id)
             environment = endpoint["visible_name"]
             endpoint_url = endpoint["server_url"]
-            text = "Current environment: {} at {}.".format(environment, endpoint_url)
+            text = "Endpoint selezionato: {}, {}.".format(environment, endpoint_url)
             self._set_status_text(text)
         else:
             self._set_status_text("Ready")
         
         
     def _set_files_status_text(self, count):
-        text = "{} available".format(Helpers.pluralize(count, "file", "files"))
+        text = "{}".format(Helpers.pluralize(count, "richiesta", "richieste"))
         self.files_status_label.set_text(text)
         
         

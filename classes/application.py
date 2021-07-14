@@ -87,10 +87,9 @@ class Application(Gtk.Application):
     def load_requests(self, endpoint_id):
         contexts = {}
         path = self._settings.get_endpoint_requests_path(endpoint_id)
-        files = os.listdir(path)
+        files = sorted(os.listdir(path))
         for file_name in files:
             if file_name.lower().endswith(".json"):
-                #file_path = "{}/{}".format(path, file_name)
                 file_path = os.path.join(path, file_name)
                 ctx = RequestContext.create_from_json_file(endpoint_id, file_path)
                 contexts[ctx.identifier] = ctx

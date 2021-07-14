@@ -1,27 +1,32 @@
 import json
 import gi
 from pathlib import Path
-from .endpoint import Endpoint
-
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
+from .endpoint import Endpoint
 
 
 class Settings:
 
-    _default_path = "datadir/settings.json"
+    _default_path = "data/settings.json"
     
     @staticmethod
     def create_settings_file():
         dict = {}
         endpoint = {}
         endpoint["identifier"] = "dummy"
-        endpoint["requests"] = []
-        endpoint["requests_files_path"] = ""
-        endpoint["token_url"] = ""
-        endpoint["adapter_url"] = ""
+        endpoint["visible_name"] = "Imposta {}".format(Settings._default_path)
+        endpoint["requests_files_path"] = "."
+        endpoint["server_url"] = "https://tuoserver.com"
+        endpoint["token_route"] = "token"
+        endpoint["adapter_route"] = "bexiadapter/startnewtask"
         endpoint["credentials"] = {}
-        endpoint["visible_name"] = "Empty Endpoint"
+        endpoint["credentials"]["username"] = "username"
+        endpoint["credentials"]["password"] = "username"
+        endpoint["credentials"]["client_secret"] = "client_secret"
+        endpoint["credentials"]["client_id"] = "client_id"
+        endpoint["credentials"]["scope"] = "scope"
+        endpoint["credentials"]["grant_type"] = "grant_type"
         dict["version"] = "1.0"
         dict["endpoints"] = [endpoint]
         json_text = json.dumps(dict, indent=4, sort_keys=False)
