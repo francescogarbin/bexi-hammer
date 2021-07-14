@@ -48,12 +48,11 @@ class SourceView:
             self._buf.set_text(None)
             return
         self._request_context = ctx
-        self._buf.set_text(ctx.pretty_text)
-        for event in ctx.events:
-            self.append(event.get_source_text())
-            self._file_path = ctx.file_path
-        self._request_context = ctx
-    
+        self._file_path = self._request_context.file_path
+        self._buf.set_text(self._request_context.pretty_text)
+        for event in self._request_context.events:
+            self.append(event.to_string())
+        
         
     @property
     def view(self):
@@ -77,6 +76,4 @@ class SourceView:
         self._buf = self._view.get_buffer()
         end_iter = self._buf.get_end_iter()
         self._buf.insert(end_iter, "\n" + text)
-
-
 
