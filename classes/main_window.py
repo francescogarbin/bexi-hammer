@@ -159,25 +159,7 @@ class MainWindow(Gtk.ApplicationWindow):
                     " stesso nome di file di richiesta già caricati in"\
                     " e sono stati ignorati.")
             
-
-    def on_file_save_as(self, widget):
-        dialog = Gtk.FileChooserDialog(title="Seleziona un file",
-                                       parent=self,
-                                       action=Gtk.FileChooserAction.SAVE)
-        dialog.add_buttons(Gtk.STOCK_CANCEL,
-                           Gtk.ResponseType.CANCEL,
-                           Gtk.STOCK_SAVE,
-                           Gtk.ResponseType.OK)
-        dialog.set_current_name("Untitled.txt")
-        dialog.set_do_overwrite_confirmation(True)
-        response = dialog.run()
-        if response == Gtk.ResponseType.OK:
-            file_path = dialog.get_filename()
-        dialog.destroy()
-        with open(file_path, "w") as text_file:
-            text_file.write(self.source_view.text)
-
-
+            
     def on_file_open(self, widget):
         endpoint_id = self.server_combo.get_active_id()
         if not endpoint_id:
@@ -221,21 +203,22 @@ class MainWindow(Gtk.ApplicationWindow):
             
 
     def on_file_save_as(self, widget):
-        dialog = Gtk.FileChooserDialog(title="Please choose a file",
+        dialog = Gtk.FileChooserDialog(title="Salva con nome",
                                        parent=self,
                                        action=Gtk.FileChooserAction.SAVE)
         dialog.add_buttons(Gtk.STOCK_CANCEL,
                            Gtk.ResponseType.CANCEL,
                            Gtk.STOCK_SAVE,
                            Gtk.ResponseType.OK)
-        dialog.set_current_name("Untitled.txt")
+        dialog.set_current_name("Senza titolo.txt")
+        dialog.set_do_overwrite_confirmation(True)
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
             file_path = dialog.get_filename()
         dialog.destroy()
         with open(file_path, "w") as text_file:
             text_file.write(self.source_view.text)
-        
+
 
     def on_run_request(self, widget):
         try:
