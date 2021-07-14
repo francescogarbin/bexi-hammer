@@ -72,7 +72,7 @@ Copia i file di richiesta all'interno di quella directory per visualizzarli auto
 
 Puoi anche puntare ad una directory di rete o condivisa, BEXi Hammer leggerà i file dalla cartella di rete: questa funzionalità è molto utile quando lavori in team con un analista o un tester che produce richieste per te. Oppure per mantenere in un unico posto l'interno portfolio di richieste utilizzabili da più persone nel tuo team.
 
-Se, mentre usi l'applicazione, aggiungi nuove richieste alla directory puntata da <code>requests_files_path</code>, fai clic sul button <pre><code>Aggiorna</code></pre> per caricarle.
+Se, mentre usi l'applicazione, aggiungi nuove richieste alla directory puntata da <code>requests_files_path</code>, fai clic sul button <code>Aggiorna</code>, collocato alla base della lista richieste, per caricarle.
 
 ### Requisiti
 
