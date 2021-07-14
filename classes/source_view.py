@@ -19,8 +19,6 @@ class SourceView:
         self._view.set_auto_indent(True)
         self._view.set_smart_home_end(True)
         self._view.set_highlight_current_line(True)
-        #self._view.set_right_margin_position(80)
-        #self._view.set_show_right_margin(True)
         self._view.set_tab_width(4)
         self._view.set_show_line_numbers(True)
         self._view.set_wrap_mode(Gtk.WrapMode.NONE)
@@ -45,6 +43,7 @@ class SourceView:
         
     @request_context.setter
     def request_context(self, ctx):
+        self._buf = self._view.get_buffer()
         if None == ctx:
             self._buf.set_text(None)
             return
@@ -75,6 +74,7 @@ class SourceView:
         
         
     def append(self, text):
+        self._buf = self._view.get_buffer()
         end_iter = self._buf.get_end_iter()
         self._buf.insert(end_iter, "\n" + text)
 

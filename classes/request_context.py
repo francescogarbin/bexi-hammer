@@ -2,8 +2,7 @@ import os
 import sys
 import json
 from .log import Log as log
-
-from classes.log import Log as log
+from .request_context_event import RequestContextEvent
 
 class RequestOutcome:
     
@@ -23,59 +22,6 @@ class RequestContextStatus:
     Completed_NOT_OK = 6
     Error = 7
     Undefined = 8
-
-class RequestContextEvent:
-
-    def __init__(self):
-        self._title = None
-        self._description = None
-        self._log = None
-
-
-    @property
-    def title(self):
-        if self._title:
-            return self._title
-        return ""
-    
-    @title.setter
-    def title(self, value):
-        self._title = value
-
-        
-    @property
-    def description(self):
-        if self._description:
-            return self._description
-        return ""
-        
-
-    @description.setter
-    def description(self, value):
-        self._description = value
-
-        
-    @property
-    def log(self):
-        if self._log:
-            return self._log
-        return ""
-        
-    
-    @log.setter
-    def log(self, value):
-        self._log = value
-
-        
-    def get_source_text(self):
-        ret = ""
-        if self.title:
-            ret += "# {}\n".format(self.title)
-        if self.description:
-            ret += "# {}\n".format(self.description)
-        if self.log:
-            ret += "{}\n".format(self.log)
-        return ret
 
 
 class RequestContext:
@@ -175,9 +121,9 @@ class RequestContext:
         return event
         
         
-    def add_completion_event(self, title, description, json_text):
+    def add_completion_event(self, title, description, json_trace):
         self.status = RequestContextStatus.Completed
-        outcome = self._find_key_value(json.loads(json_text),
+        outcome = self._find_key_value(json.loads(json_trace),
                                        RequestOutcome.OutcomeLabel)
         if RequestOutcome.Success == outcome:
             self.status = RequestContextStatus.Completed
@@ -190,7 +136,7 @@ class RequestContext:
         event = RequestContextEvent()
         event.title = title
         event.description = description
-        event.log = json_text
+        event.trace = json_trace
         self.events.append(event)
         return event
         
@@ -229,6 +175,7 @@ class RequestContext:
             ctx.status = RequestContextStatus.Error
         return ctx 
     
+    
     def _find_key_value(self, json_dict, key):        
         results = self._find_key_values(json_dict, key)
         if len(results) > 0:
@@ -248,6 +195,4 @@ class RequestContext:
             raw_json = json.dumps(json_dict)
             json.loads(raw_json, object_hook=_decode_dict)
         return results
-    
-    
 

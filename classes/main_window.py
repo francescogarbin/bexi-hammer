@@ -419,66 +419,44 @@ class MainWindow(Gtk.ApplicationWindow):
     def _append_event(self, request_context, event):
         row = self.files_listbox.get_selected_row()
         if row.request_context_identifier == request_context.identifier:
-            self.source_view.append(event.get_source_text())
+            self.source_view.append(event.to_string())
 
 
     def _post_request(self, request_context, endpoint_id):
-        log.debug("post_request() entering...")
         try:
             if RequestContextStatus.Idle != request_context.status:
-                log.warn("MainWindow._post_request() chiamata con richiesta in stato non Idle ({}.)".format(request_context.status))
+                log.warn("MainWindow._post_request() con in stato"\
+                         " non Idle ({}.)".format(request_context.status))
                 return
             request_context.status = RequestContextStatus.Running
             GLib.idle_add(self._inflect_request_context_status, request_context)
             GLib.idle_add(self._set_files_listbox_row_status, request_context)
-            settings = self.app.get_settings()
-            token_url = settings.get_endpoint_token_url(endpoint_id)
-            credentials = settings.get_endpoint_credentials(endpoint_id)
-            
             endpoint = self.app.get_endpoint(endpoint_id)
-            credentials = self.app.get_endpoint(endpoint_id).credentials
-            bexi = BEXiAdapter(endpoint.token_url, endpoint.adapter_url)
-            
+            bexi = BEXiAdapter(endpoint)
             event = request_context.add_log_event(
                                 "Invio richiesta GET token autenticazione...",
                                 "Endpoint: {}".format(endpoint.token_url))
             GLib.idle_add(self._append_event, request_context, event)
-            token_resp = bexi.get_token(credentials)
-            if token_resp:
-                if 200 == token_resp.status_code:
-                    token_json = token_resp.json() 
-                    event = request_context.add_completion_event(
-                                    "Token ricevuto dal server",
-                                    "Endpoint: {}".format(endpoint.token_url),
-                                    json.dumps(token_json, indent=4))                
-                    GLib.idle_add(self._append_event, request_context, event)            
-                    event = request_context.add_log_event(
-                                "Invio richiesta POST a BEXi Adapter...",
-                                "Endpoint: {}".format(endpoint.adapter_url))
-                    GLib.idle_add(self._append_event, request_context, event)
-                    request_body = self.source_view.text
-                    post_resp = bexi.post_start_new_task(token_json, request_body)
-                    if post_resp:
-                        if 200 == post_resp.status_code:
-                            post_json = post_resp.json()
-                            event = request_context.add_completion_event(
-                                        "Risposta ricevuta dal server",
-                                        "Endpoint: {}".format(endpoint.adapter_url),
-                                        json.dumps(post_json, indent=4))
-                            GLib.idle_add(self._append_event, request_context, event)
-                        else:
-                            raise Exception("Il server ha ritornato un errore con status code {}".format(post_resp.status_code))
-                    else:
-                        raise Exception("Il server non ha restituito una risposta valida.")
-        
-                else:
-                    raise Exception("Il server ha ritornato un errore con status code {}".format(token_resp.status_code))
-        
-            else:
-                raise Exception("Il server non ha restituito una risposta valida.")
+            token = bexi.get_token()
+            event = request_context.add_completion_event(
+                                 "Token ricevuto dal server",
+                                 "Endpoint: {}".format(endpoint.token_url),
+                                 json.dumps(token, indent=4))                
+            GLib.idle_add(self._append_event, request_context, event)            
+            event = request_context.add_log_event(
+                                 "Invio richiesta POST a BEXi Adapter...",
+                                 "Endpoint: {}".format(endpoint.adapter_url))
+            GLib.idle_add(self._append_event, request_context, event)
+            request_body = self.source_view.text
+            outcome = bexi.start_new_task(token, request_body)
+            event = request_context.add_completion_event(
+                                "Risposta ricevuta dal server",
+                                "Endpoint: {}".format(endpoint.adapter_url),
+                                json.dumps(outcome, indent=4))
+            GLib.idle_add(self._append_event, request_context, event)
         except Exception as e:
             event = request_context.add_error_event(
-                                "La chiamata non è terminata correttamente",
+                                "Dinosauro, qualcosa è andato storto!",
                                 str(e))
             GLib.idle_add(self._append_event, request_context, event)
             log.warn("Exception in MainWindow._post_request()!")
@@ -486,6 +464,5 @@ class MainWindow(Gtk.ApplicationWindow):
         finally:
             GLib.idle_add(self._inflect_request_context_status, request_context)
             GLib.idle_add(self._set_files_listbox_row_status, request_context)
-            log.debug("post_request() leaving...")
         
         
