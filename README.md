@@ -34,3 +34,11 @@ Purtroppo non dispongo un Mac recente su cui compilare il pacchetto di installaz
 ### Licenza d'uso e modifiche al codice sorgente
 
 BEXi Hammer è un'applicazione che ha funzioni dimostrative, il codice è rilasciato sotto licenza GNU GENERAL PUBLIC LICENSE V3 per consentirti di modificare il codice a tuo piacimento.
+
+### Roadmap di sviluppo
+
+#### Versione 1.1a
+Dialogo Informazioni
+Dialogo Impostazioni
+Pacchetto di installazione FlatPack per Linux
+Crea nuovi file da zero tramite editor con sintassi JSON evidenziata
