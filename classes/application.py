@@ -15,7 +15,7 @@ class Application(Gtk.Application):
     ID = "org.blucrm.bexi-hammer"
     NAME = "bexi-hammer"
     VISIBLE_NAME = "BEXi Hammer"
-    VERSION = "1.2 20210714 17:00"
+    VERSION = "1.2 20210714 18:55"
     VISIBLE_VERSION = "1.2"
     
     def __init__(self, *args, **kwargs):
