@@ -15,16 +15,7 @@ from .request_context import RequestContext
 from .request_context import RequestContextEvent
 from .request_context import RequestContextStatus
 from .endpoint import Endpoint
-
-
-import logging
-log = logging.getLogger('bexi-hammer')
-hdlr = logging.FileHandler('bexi-hammer.log')
-formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-hdlr.setFormatter(formatter)
-log.addHandler(hdlr)
-log.addHandler(logging.StreamHandler(sys.stdout))
-log.setLevel(logging.DEBUG)
+from .log import Log as log
 
 
 @Gtk.Template(filename="resources/main_window_v1.ui")

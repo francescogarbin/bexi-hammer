@@ -41,7 +41,7 @@ class Settings:
 
     @staticmethod
     def get_file_path():
-        return appdirs.user_config_dir(appname="bexi-hammer")
+        return appdirs.user_config_dir("bexi-hammer", "blucrm")
 
 
     def __init__(self):

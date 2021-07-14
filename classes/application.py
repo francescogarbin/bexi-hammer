@@ -8,6 +8,7 @@ from classes.main_window import MainWindow
 from classes.settings import Settings
 from classes.request_context import RequestContext
 from classes.endpoint import Endpoint
+from classes.log import Log as log
 
 class Application(Gtk.Application):
 
@@ -32,6 +33,7 @@ class Application(Gtk.Application):
         self._settings = self._load_settings()
         if self._settings:
             self._endpoints = self.load_endpoints(self._settings)
+        log.info("Applicazione avviata")
         
         
     def reload_endpoints(self):
