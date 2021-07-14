@@ -4,7 +4,7 @@ BEXi Hammer semplifica i test di chiamata a BluCRM BEXiAdapter con un ambiente g
 
 ![bexi-hammer-screenshot-1](https://user-images.githubusercontent.com/571018/125612831-0824307c-7b8b-45b2-b0e8-1a90d058d7ab.png)
 
-La lista delle richieste, sulla sinistra, riporta l'elenco dei file di richiesta disponibili per l'endpoint selezionato nella combo box. Il pannello di destra, chiamato Log, riporta il tracciato JSON della richiesta attualmente selezionata con sintax-highlight per facilitarne la lettura.
+La lista delle richieste, sulla sinistra, riporta l'elenco dei file di richiesta disponibili per l'endpoint selezionato nella combo box. Il pannello di destra, chiamato Log, riporta il tracciato JSON della richiesta attualmente selezionata, la sintassi è evidenziata per facilitar la lettura del tracciato.
 
 Puoi lanciare la richiesta selezionata nella lista richieste con un clic sul pulsante Esegui... nella toolbar. Il Log ti aggiornerà con tutti i progressi della chiamata al servizio BluCRM BEXi previsto dalla richiesta.
 
