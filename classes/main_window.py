@@ -59,12 +59,12 @@ class MainWindow(Gtk.ApplicationWindow):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
+        #setup label di servizio
         self.filename_label.set_text("Nessun file selezionato")
         self.filepath_label.set_text("--")
         self.token_url_label.set_text("--")
         self.adapter_url_label.set_text("--")
-        
+        # setup settings
         settings = self.app.get_settings()
         if not settings:
             self._show_alert_dialog("Impostazioni non trovate",
@@ -72,16 +72,16 @@ class MainWindow(Gtk.ApplicationWindow):
                         " che il file di impostazioni sia presente.")
         endpoint_id = settings.get_default_endpoint_id()
         combo_model = settings.get_endpoints_list_store()
-                               
+        #setup files listbox                     
         self.files_listbox.connect("row-selected", self.on_row_selected)
         self.refresh_files_button.connect("clicked", self.on_refresh_files)        
-        
+        #setup source view
         self.source_view = SourceView()
         self.source_scrollview.add(self.source_view.view)
-        
+        #setup dello stack per uso futuro
         self.page_1_box.show()
         self.main_stack.show()
-
+        #setup della combo per la selezione degli endpoint
         renderer_text = Gtk.CellRendererText()
         self.server_combo.pack_start(renderer_text, True)
         self.server_combo.add_attribute(renderer_text, "text", 1)
@@ -89,7 +89,7 @@ class MainWindow(Gtk.ApplicationWindow):
         self.server_combo.set_model(combo_model)
         self.server_combo.set_active_id(endpoint_id)
         self.server_combo.connect("changed", self.on_endpoint_changed)
-        
+        #setup delle actions
         self.file_open_button.connect("clicked", self.on_file_open)
         self.dir_open_button.connect("clicked", self.on_dir_open)
         self.save_as_button.connect("clicked", self.on_file_save_as)
@@ -99,13 +99,15 @@ class MainWindow(Gtk.ApplicationWindow):
         self.reset_button.connect("clicked", self.on_reset_request)
         self.settings_button.connect("clicked", self.on_settings)
         self.about_button.connect("clicked", self.on_about)
-        
+        #ricarica la lista dei file
         self._refresh_files_listbox(endpoint_id)
+        #imposta la status bar con un messaggio stock
         self._set_stock_status_text("environment_ready")
-        
+        #mostra i widget
         self.files_listbox.show()
         self.show_all()
         self._hide_files_listbox_statuses()
+        
         
     @property
     def app(self):
@@ -139,16 +141,17 @@ class MainWindow(Gtk.ApplicationWindow):
             for file_name in files:
                 if file_name.lower().endswith(".json"):
                     file_path = os.path.join(path, file_name)
-                    if not RequestContext.build_identier(file_path) in requests:
-                        ctx = self.app.add_request_context_from_file(endpoint_id,
+                    if RequestContext.build_identier(file_path) in requests:
+                        duplicates_skipped = True                    
+                    else:
+                        ctx = self.app.add_request_context_from_file(
+                                                                endpoint_id,
                                                                 file_path)
                         row = FileRow.create_from_request_context(ctx)
                         self.files_listbox.add(row)
                         self.files_listbox.select_row(row)
                         row.show()
                         row.grab_focus()
-                    else:
-                        duplicates_skipped = True
         if duplicates_skipped:
             self._show_alert_dialog(
                     "Alcuni file erano dei duplicati",
@@ -180,8 +183,8 @@ class MainWindow(Gtk.ApplicationWindow):
         if not endpoint_id:
             self._show_alert_dialog(
                         "Nessun ambiente selezionato",
-                        "Prima di caricare un file, seleziona un"\
-                        " ambiente in cui caricare il tracciato della richiesta.")
+                        "Prima di caricare un file, seleziona un ambiente"\
+                        " in cui caricare il tracciato della richiesta.")
             return
         dialog = Gtk.FileChooserDialog(title="Please choose a file",
                                        parent=self,
@@ -235,7 +238,6 @@ class MainWindow(Gtk.ApplicationWindow):
         
 
     def on_run_request(self, widget):
-        log.debug("on_run_request()...")
         try:
             endpoint_id = self.server_combo.get_active_id()
             row = self.files_listbox.get_selected_row()
@@ -246,15 +248,15 @@ class MainWindow(Gtk.ApplicationWindow):
                                           daemon=True)
             ctx.thread.start()
         except Exception as e:
-            self._handle_exception("Could not post request", e)      
+            self._handle_exception("Richiesta fallita.", e)      
         
 
     def on_pause_request(self, widget):
-        log.debug("on_pause_request()...")
+        log.debug("MainWindow.on_pause_request() non ancora implementato.")
 
 
     def on_stop_request(self, widget):
-        log.debug("on_stop_request()...")
+        log.debug("MainWindow.on_stop_request() non ancora implementato.")
 
         
     def on_reset_request(self, widget):
@@ -294,7 +296,7 @@ class MainWindow(Gtk.ApplicationWindow):
 
 
     def on_settings(self, widget):
-        log.debug("on_settings()...")
+        log.debug("MainWindow.on_settings() non ancora implementato.")
 
         
     def on_about(self,widget):
@@ -314,10 +316,10 @@ class MainWindow(Gtk.ApplicationWindow):
             endpoint = settings.get_endpoint(endpoint_id)
             environment = endpoint["visible_name"]
             endpoint_url = endpoint["server_url"]
-            text = "Endpoint selezionato: {}, {}.".format(environment, endpoint_url)
+            text = "Endpoint attivo: {}, {}.".format(environment, endpoint_url)
             self._set_status_text(text)
         else:
-            self._set_status_text("Ready")
+            self._set_status_text("Pronto")
         
         
     def _set_files_status_text(self, count):
@@ -337,7 +339,7 @@ class MainWindow(Gtk.ApplicationWindow):
         if len(self.files_listbox) > 0:
             first_row = self.files_listbox.get_row_at_index(0)
             self.files_listbox.select_row(first_row)
-        self._set_stock_status_text("environment_ready")        
+        self._set_stock_status_text("Ambiente Pronto")        
         self._set_files_status_text(len(self.files_listbox))        
         
         
@@ -419,7 +421,7 @@ class MainWindow(Gtk.ApplicationWindow):
             elif RequestContextStatus.Undefined == request_context.status:
                 pass
             else:
-                raise Exception("Invalid request context status {}!"
+                raise Exception("Contesto richiesta non valido: {}!"
                                              .format(request_context.status))
                 
 
@@ -466,7 +468,7 @@ class MainWindow(Gtk.ApplicationWindow):
                                 "Dinosauro, qualcosa è andato storto!",
                                 str(e))
             GLib.idle_add(self._append_event, request_context, event)
-            log.error("Exception in MainWindow._post_request()! {}".format(str(e)))
+            log.error("Errore in MainWindow._post_request()! {}".format(str(e)))
         finally:
             GLib.idle_add(self._inflect_request_context_status, request_context)
             GLib.idle_add(self._set_files_listbox_row_status, request_context)

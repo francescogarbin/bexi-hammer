@@ -14,6 +14,8 @@ class Application(Gtk.Application):
     ID = "org.blucrm.bexi-hammer"
     NAME = "bexi-hammer"
     VISIBLE_NAME = "BEXi Hammer"
+    VERSION = "1.2"
+    VISIBLE_VERSION = "1.2"
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args,
@@ -115,23 +117,18 @@ class Application(Gtk.Application):
 
 
     def do_activate(self):
-        # We only allow a single window and raise any existing ones
         if not self.window:
-            # Windows are associated with the application
-            # when the last one is closed the application shuts down
-            self.window = MainWindow(application=self, title="BEXi Hammer")
-            #self.window.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
+            self.window = MainWindow(application=self,
+                          title=Application.VISIBLE_NAME)
             self.window.resize(1024, 768)
         self.window.present()
 
 
     def do_command_line(self, command_line):
         options = command_line.get_options_dict()
-        # convert GVariantDict -> GVariant -> dict
         options = options.end().unpack()
         if "test" in options:
-            # This is printed on the main instance
-            print("Test argument recieved: %s" % options["test"])
+            print("Argomento di test ricevuto: %s" % options["test"])
         self.activate()
         return 0
 
@@ -143,5 +140,4 @@ class Application(Gtk.Application):
 
     def on_quit(self, action, param):
         self.quit()
-
 

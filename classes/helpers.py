@@ -1,7 +1,7 @@
 class Helpers:
 
     def pluralize(count, singular, plural):
-        if count == 1:
+        if 1 == count:
             return "{} {}".format(count, singular)
         return "{} {}".format(count, plural)
 
