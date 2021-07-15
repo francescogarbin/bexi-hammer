@@ -2,17 +2,19 @@
 
 BEXi Hammer semplifica i test di chiamata a BluCRM BEXiAdapter con un ambiente grafico che mostra chiaramente le richieste disponibili e ne permette l'esecuzione in pochi clic del mouse.   
 
-![bexi-hammer-screenshot-1](https://user-images.githubusercontent.com/571018/125612831-0824307c-7b8b-45b2-b0e8-1a90d058d7ab.png)
+![bexi-hammer-window](https://user-images.githubusercontent.com/571018/125756051-d19ada43-b136-4a5f-9117-bb1bc24d53a4.png)
 
-La lista delle richieste, sulla sinistra, riporta l'elenco dei file di richiesta disponibili per l'endpoint selezionato nella combo box. Il pannello di destra, chiamato Log, riporta il tracciato JSON della richiesta attualmente selezionata, la sintassi è evidenziata per facilitar la lettura del tracciato.
+La lista delle richieste, sulla sinistra, riporta l'elenco dei file di richiesta disponibili per l'ambiente BEXi selezionato nella combo box. Il pannello di destra, chiamato Log, riporta il tracciato JSON della richiesta attualmente selezionata, la sintassi è evidenziata per facilitar la lettura del tracciato.
 
 Puoi lanciare la richiesta selezionata nella lista richieste con un clic sul pulsante Esegui... nella toolbar. Il Log ti aggiornerà con tutti i progressi della chiamata al servizio BluCRM BEXi previsto dalla richiesta.
 
 BEXi Hammer è un'applicazione multi-threading e può lanciare più richieste contemporaneamente. Lancia la seconda richiesta mentre la prima è in esecuzione e così via.
 
-### Gli Endpoint
+### Ambienti e endpoint BEXi
 
-Ho in previsione di fornire un riquadro di dialogo per la configurazione degli endpoint, per ora tuttavia vorrai editare il file di configurazione che trovi in una directory sul tuo sistema operativo.
+Un ambiente BEXi è puntato da uno URL radice (root URL) che punta ad uno o più server su cui risiedono i servizi di autenticazione e di esecuzione delle richieste. Una volta configurati un po' di ambienti, puoi selezionare l'ambiente corrente nella combo box Ambiente sopra il pannello Lista Richieste, BEXi Hammer caricherà automaticamente tutte le richieste disponibili per l'ambiente selezionato. 
+
+In questa versione di BEXi Hammer, gli ambienti e gli endpoint sono configurati in un file di impostazioni. Ho in previsione di fornire un riquadro di dialogo per la configurazione degli endpoint, per ora tuttavia vorrai editare il file di configurazione che trovi in una directory sul tuo sistema operativo.
 
 Su Linux, trovi il file di configurazione a questo percorso:
 
