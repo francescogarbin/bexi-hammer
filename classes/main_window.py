@@ -292,7 +292,7 @@ class MainWindow(Gtk.ApplicationWindow):
             endpoint = settings.get_endpoint(endpoint_id)
             environment = endpoint["visible_name"]
             endpoint_url = endpoint["server_url"]
-            text = "Endpoint attivo: {}, {}.".format(environment, endpoint_url)
+            text = "Ambiente selezionato: {}, {}.".format(environment, endpoint_url)
             self._set_status_text(text)
         else:
             self._set_status_text("Pronto")
