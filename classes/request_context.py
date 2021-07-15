@@ -2,6 +2,7 @@ import os
 import sys
 import json
 from .request_context_event import RequestContextEvent
+from .log import Log as log
 
 class RequestOutcome:
     
@@ -31,20 +32,29 @@ class RequestContext:
             with open(file_path) as json_file:
                 json_dict = json.load(json_file)
             ctx = RequestContext(endpoint_id, json_dict, file_path)
-        except Exception as e:
-            err_dict = {}
-            err_dict["error"] = "File JSON malformato: {}".format(str(e))
-            err_dict["path"] = file_path
-            ctx = RequestContext(endpoint_id, err_dict, file_path)
-            ctx.status = RequestContextStatus.Error
+        except Exception as jsonex:
+            log.exception(jsonex)
+            ctx = RequestContext.handle_malformed_JSON_exception(jsonex,
+                                                                 endpoint_id,
+                                                                 file_path)
+        return ctx
+        
+
+    def handle_malformed_JSON_exception(ex, endpoint_id, file_path):
+        ctx = RequestContext(endpoint_id, None, file_path)
+        ctx.status = RequestContextStatus.Error
+        with open(file_path) as f:
+            content = f.read()
+        ctx.add_error_event(str(ex), content)
         return ctx 
+
 
     def build_identier(file_path):
         return os.path.basename(file_path)
         
         
-    def __init__(self, endpoint_identifier, json_dict, file_path):
-        self._endpoint_identifier = endpoint_identifier
+    def __init__(self, endpoint_id, json_dict, file_path):
+        self._endpoint_id = endpoint_id
         self._identifier = RequestContext.build_identier(file_path)
         self._status = RequestContextStatus.Idle
         self._file_path = file_path
@@ -54,7 +64,7 @@ class RequestContext:
 
     @property
     def endpoint_identifier(self):
-        return self._endpoint_identifier
+        return self._endpoint_id
         
         
     @property
@@ -87,7 +97,10 @@ class RequestContext:
  
     @property
     def json_body(self):
-        return json.dumps(self._json_body)
+        try:
+            return json.dumps(self._json_body)
+        except Exception as e:
+            return {}
  
     @property
     def text(self):
@@ -96,8 +109,10 @@ class RequestContext:
 
     @property
     def pretty_text(self):
-        return json.dumps(self._json_body, indent=4, sort_keys=False)
-
+        try:
+            return json.dumps(self._json_body, indent=4, sort_keys=False)
+        except Exception as e:
+            return ""
 
     @property
     def events(self):
@@ -159,19 +174,19 @@ class RequestContext:
 
     
     def reload(self):
+        ctx = None
         try:
-            with open(self.file_path) as json_file:
+            with open(self._file_path) as json_file:
                 json_dict = json.load(json_file)
-            ctx = RequestContext(endpoint_id, json_dict, file_path)
-        except Exception as e:
-            err_dict = {}
-            err_dict["error"] = "File JSON malformato: {}".format(str(e))
-            err_dict["path"] = file_path
-            ctx = RequestContext(endpoint_id, err_dict, file_path)
-            ctx.status = RequestContextStatus.Error
-        return ctx 
-    
-    
+            ctx = RequestContext(self._endpoint_id, json_dict, self._file_path)
+        except Exception as jsonex:
+            log.exception(jsonex)
+            ctx = RequestContext.handle_malformed_JSON_exception(jsonex,
+                                                            self._endpoint_id,
+                                                            self._file_path)
+        return ctx
+               
+               
     def _find_key_value(self, json_dict, key):        
         results = self._find_key_values(json_dict, key)
         if len(results) > 0:
@@ -181,14 +196,18 @@ class RequestContext:
     
     def _find_key_values(self, json_dict, key):
         results = []
-        def _decode_dict(a_dict):
-            try:
-                results.append(a_dict[key])
-            except KeyError:
-                pass
-            return a_dict
-        if self._json_body:
-            raw_json = json.dumps(json_dict)
-            json.loads(raw_json, object_hook=_decode_dict)
+        try:
+            def _decode_dict(a_dict):
+                try:
+                    results.append(a_dict[key])
+                except KeyError:
+                    pass
+                return a_dict
+            if self._json_body:
+                raw_json = json.dumps(json_dict)
+                json.loads(raw_json, object_hook=_decode_dict)
+        except Exception as e:
+            log.error("Exception in RequestContext._find_key_values")
+            log.exception(e)
         return results
 

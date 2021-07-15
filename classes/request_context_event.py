@@ -44,9 +44,9 @@ class RequestContextEvent:
     def to_string(self):
         ret = ""
         if self._title:
-            ret += "# {}\n".format(self._title)
+            ret += "{}\n".format(self._title)
         if self._description:
-            ret += "# {}\n".format(self._description)
+            ret += "{}\n".format(self._description)
         if self._trace:
             ret += "{}\n".format(self._trace)
         return ret

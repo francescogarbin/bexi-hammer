@@ -39,7 +39,7 @@ class Log:
     
     @staticmethod
     def exception(exception):
-        Log.get_log().debug(str(exception))
+        Log.get_log().debug(repr(exception))
     
     @staticmethod
     def get_log():
