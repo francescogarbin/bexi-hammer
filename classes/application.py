@@ -54,7 +54,17 @@ class Application(Gtk.Application):
             endpoints[id] = e
         return endpoints
 
+    
+    def reload_endpoint_requests(self, endpoint_id):
+        self._endpoints[endpoint_id].requests = self.load_requests(endpoint_id) 
+    
 
+    def reload_endpoint_request(self, endpoint_id, request_context_id):
+        ctx = self.reload_request(endpoint_id, request_context_id)
+        self._endpoints[endpoint_id].requests[ctx.identifier] = ctx 
+        return ctx
+        
+    
     def add_request_context_from_file(self, endpoint_id, file_path):
         ctx = RequestContext.create_from_json_file(endpoint_id, file_path)
         self._endpoints[endpoint_id].requests[ctx.identifier] = ctx
@@ -107,6 +117,12 @@ class Application(Gtk.Application):
                 contexts[ctx.identifier] = ctx
         return contexts
         
+
+    def reload_request(self, endpoint_id, request_context_id):
+        old_ctx = self._endpoints[endpoint_id].requests[request_context_id]
+        ctx = RequestContext.create_from_json_file(endpoint_id, old_ctx.file_path)
+        return ctx
+
 
     def do_startup(self):
         Gtk.Application.do_startup(self)

@@ -37,6 +37,9 @@ class Log:
     def error(value):
         Log.get_log().debug(value)
     
+    @staticmethod
+    def exception(exception):
+        Log.get_log().debug(str(exception))
     
     @staticmethod
     def get_log():
