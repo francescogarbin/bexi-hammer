@@ -374,11 +374,9 @@ class MainWindow(Gtk.ApplicationWindow):
 
     def _inflect_request_context_status(self, ctx):
         if None == ctx:
-            self.run_button.set_sensitive(False)
-            self.pause_button.set_sensitive(False)
-            self.stop_button.set_sensitive(False)
-            self.reset_button.set_sensitive(False)
-            self.save_as_button.set_sensitive(False)
+            return
+        row = self.files_listbox.get_selected_row()
+        if row.request_context_identifier != ctx.identifier:
             return
         if RequestContextStatus.Idle == ctx.status:
             self.run_button.set_sensitive(True)
