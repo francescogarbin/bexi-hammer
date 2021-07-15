@@ -41,8 +41,7 @@ class SourceView:
         return self._request_context
         
         
-    @request_context.setter
-    def request_context(self, ctx):
+    def set_request_context(self, ctx):
         self._buf = self._view.get_buffer()
         if None == ctx:
             self._buf.set_text(None)

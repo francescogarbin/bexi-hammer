@@ -204,11 +204,13 @@ class MainWindow(Gtk.ApplicationWindow):
         dialog.set_current_name("Senza titolo.txt")
         dialog.set_do_overwrite_confirmation(True)
         response = dialog.run()
+        file_path = None
         if response == Gtk.ResponseType.OK:
             file_path = dialog.get_filename()
         dialog.destroy()
-        with open(file_path, "w") as text_file:
-            text_file.write(self.source_view.text)
+        if file_path:
+            with open(file_path, "w") as text_file:
+                text_file.write(self.source_view.text)
 
 
     def on_run_request(self, widget):
@@ -222,7 +224,7 @@ class MainWindow(Gtk.ApplicationWindow):
                                           daemon=True)
             ctx.thread.start()
         except Exception as e:
-            self._handle_exception("Richiesta fallita.", e)      
+            self._handle_exception("Ooops, qualcosa è andato storto", e)      
         
 
     def on_pause_request(self, widget):
@@ -239,7 +241,7 @@ class MainWindow(Gtk.ApplicationWindow):
         ctx_id = row.request_context_identifier
         ctx = self.app.get_request_context(endpoint_id, ctx_id)
         ctx.reset()
-        self.source_view.request_context = ctx
+        self.source_view.set_request_context(ctx)
         self._set_files_listbox_row_status(ctx)
         self._inflect_request_context_status(ctx)
         
@@ -256,7 +258,7 @@ class MainWindow(Gtk.ApplicationWindow):
             ctx = self.app.get_request_context(endpoint_id, ctx_id)
             adapter_url = self.app.get_endpoint(endpoint_id).adapter_url
             token_url = self.app.get_endpoint(endpoint_id).token_url
-            self.source_view.request_context = ctx
+            self.source_view.set_request_context(ctx)
             self.filename_label.set_text(ctx.file_name)
             self.filepath_label.set_text(ctx.file_path)
             self.adapter_url_label.set_text(adapter_url)
@@ -370,33 +372,58 @@ class MainWindow(Gtk.ApplicationWindow):
             self._inflect_request_context_status(None)
 
 
-    def _inflect_request_context_status(self, request_context):
-        if None == request_context:
+    def _inflect_request_context_status(self, ctx):
+        if None == ctx:
             self.run_button.set_sensitive(False)
             self.pause_button.set_sensitive(False)
             self.stop_button.set_sensitive(False)
-        else:    
+            self.reset_button.set_sensitive(False)
+            self.save_as_button.set_sensitive(False)
+            return
+        if RequestContextStatus.Idle == ctx.status:
             self.run_button.set_sensitive(True)
             self.pause_button.set_sensitive(False)
             self.stop_button.set_sensitive(False)
-            if RequestContextStatus.Idle == request_context.status:
-                self.run_button.set_sensitive(True)
-            elif RequestContextStatus.Running == request_context.status:
-                self.pause_button.set_sensitive(True)
-                self.stop_button.set_sensitive(True)
-            elif RequestContextStatus.Completed == request_context.status:
-                pass
-            elif RequestContextStatus.Completed_NOT_OK == request_context.status:
-                pass
-            elif RequestContextStatus.Completed_WARN == request_context.status:
-                pass
-            elif RequestContextStatus.Error == request_context.status:
-                pass
-            elif RequestContextStatus.Undefined == request_context.status:
-                pass
-            else:
-                raise Exception("Contesto richiesta non valido: {}!"
-                                             .format(request_context.status))
+            self.reset_button.set_sensitive(True)
+            self.save_as_button.set_sensitive(True)
+        elif RequestContextStatus.Running == ctx.status:
+            self.run_button.set_sensitive(False)
+            self.pause_button.set_sensitive(True)
+            self.stop_button.set_sensitive(True)
+            self.reset_button.set_sensitive(False)
+            self.save_as_button.set_sensitive(False)
+        elif RequestContextStatus.Completed == ctx.status:
+            self.run_button.set_sensitive(False)
+            self.pause_button.set_sensitive(False)
+            self.stop_button.set_sensitive(False)
+            self.reset_button.set_sensitive(True)
+            self.save_as_button.set_sensitive(True)
+        elif RequestContextStatus.Completed_NOT_OK == ctx.status:
+            self.run_button.set_sensitive(False)
+            self.pause_button.set_sensitive(False)
+            self.stop_button.set_sensitive(False)
+            self.reset_button.set_sensitive(True)
+            self.save_as_button.set_sensitive(True)
+        elif RequestContextStatus.Completed_WARN == ctx.status:
+            self.run_button.set_sensitive(False)
+            self.pause_button.set_sensitive(False)
+            self.stop_button.set_sensitive(False)
+            self.reset_button.set_sensitive(True)
+            self.save_as_button.set_sensitive(True)
+        elif RequestContextStatus.Error == ctx.status:
+            self.run_button.set_sensitive(False)
+            self.pause_button.set_sensitive(False)
+            self.stop_button.set_sensitive(False)
+            self.reset_button.set_sensitive(True)
+            self.save_as_button.set_sensitive(True)
+        elif RequestContextStatus.Undefined == ctx.status:
+            self.run_button.set_sensitive(False)
+            self.pause_button.set_sensitive(False)
+            self.stop_button.set_sensitive(False)
+            self.reset_button.set_sensitive(False)
+            self.save_as_button.set_sensitive(True)
+        else:
+            raise Exception("Stato non valido: {}!".format(ctx.status))
                 
 
     def _append_event(self, request_context, event):
@@ -419,32 +446,28 @@ class MainWindow(Gtk.ApplicationWindow):
             event = request_context.add_log_event(
                                 "Invio richiesta GET token autenticazione...",
                                 "Endpoint: {}".format(endpoint.token_url))
-            GLib.idle_add(self._append_event, request_context, event)
             token = bexi.get_token()
             event = request_context.add_completion_event(
                                  "Token ricevuto dal server",
                                  "Endpoint: {}".format(endpoint.token_url),
                                  json.dumps(token, indent=4))                
-            GLib.idle_add(self._append_event, request_context, event)            
             event = request_context.add_log_event(
                                  "Invio richiesta POST a BEXi Adapter...",
                                  "Endpoint: {}".format(endpoint.adapter_url))
-            GLib.idle_add(self._append_event, request_context, event)
             request_body = self.source_view.text
             outcome = bexi.start_new_task(token, request_body)
             event = request_context.add_completion_event(
                                 "Risposta ricevuta dal server",
                                 "Endpoint: {}".format(endpoint.adapter_url),
                                 json.dumps(outcome, indent=4))
-            GLib.idle_add(self._append_event, request_context, event)
         except Exception as e:
             event = request_context.add_error_event(
                                 "Dinosauro, qualcosa è andato storto!",
                                 str(e))
-            GLib.idle_add(self._append_event, request_context, event)
-            log.error("Errore in MainWindow._post_request()! {}".format(str(e)))
         finally:
+            GLib.idle_add(self.source_view.set_request_context, request_context)
             GLib.idle_add(self._inflect_request_context_status, request_context)
             GLib.idle_add(self._set_files_listbox_row_status, request_context)
+            
         
         

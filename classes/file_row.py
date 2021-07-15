@@ -1,6 +1,7 @@
 import os, sys, gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
+from gi.repository import GdkPixbuf
 from .request_context import RequestContextStatus
 
 class FileRow(Gtk.ListBoxRow):
@@ -14,6 +15,7 @@ class FileRow(Gtk.ListBoxRow):
         box = builder.get_object('file_row_box')
         row = FileRow()
         row.add(box)
+        row._run_image = builder.get_object('run_image')
         row._type_label = builder.get_object('type_label')
         row._name_label = builder.get_object('name_label')
         row._status_image = builder.get_object('status_image')
@@ -34,6 +36,7 @@ class FileRow(Gtk.ListBoxRow):
         self._name_label = None
         self._status_image = None
         self._file_path = None
+        self._run_image = None
         self.connect("enter-notify-event", self.on_enter)
 
 
@@ -46,7 +49,7 @@ class FileRow(Gtk.ListBoxRow):
         if RequestContextStatus.Idle == request_context_status: 
             self._status_image.hide()
         elif RequestContextStatus.Running == request_context_status:
-            self._status_image.set_from_stock(Gtk.STOCK_MEDIA_PLAY, icon_size)        
+            self._status_image.set_from_pixbuf(self._run_image.get_pixbuf())        
             self._status_image.show()
         elif RequestContextStatus.Completed == request_context_status:
             self._status_image.set_from_stock(Gtk.STOCK_OK, icon_size)

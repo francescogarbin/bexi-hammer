@@ -68,8 +68,7 @@
         <property name="halign">end</property>
         <property name="margin-start">10</property>
         <property name="margin-end">10</property>
-        <property name="stock">gtk-media-play</property>
-        <property name="icon_size">6</property>
+        <property name="icon-name">system-run</property>
       </object>
       <packing>
         <property name="expand">True</property>
@@ -78,5 +77,11 @@
         <property name="position">1</property>
       </packing>
     </child>
+  </object>
+  <object class="GtkImage" id="run_image">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="pixbuf">icon-run-24x24.png</property>
+    <property name="icon_size">6</property>
   </object>
 </interface>
