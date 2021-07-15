@@ -105,15 +105,49 @@ Purtroppo non dispongo un Mac recente su cui compilare il pacchetto di installaz
 
 BEXi Hammer è un'applicazione che ha funzioni dimostrative, il codice è rilasciato sotto licenza GNU GENERAL PUBLIC LICENSE V3 per consentirti di modificare il codice a tuo piacimento.
 
+### Disclaimer e clausole di utilizzo
+
+BEXi Hammer è un applicaione sviluppata e rilasciata a unico ed esclusivo scopo dimostrativo. BEXi Hammer non è un prodotto di BluCRM Srl e pertanto non gode di alcuna clausola di supporto ufficiale e manutenzione. BEXi Hammer è rilasciato senza alcuna garanzia di funzionamento e di future evoluzioni e manutenzioni.
+
 ### Roadmap di sviluppo
 
-#### Versione 1.1a
+#### Versione 1.3 (BACKLOG)
 
 <ul>
-  <li>Dialogo Informazioni</li>
-  <li>Dialogo Impostazioni</li>
-  <li>Pacchetto di installazione FlatPack per sistemi Linux</li>
-  <li>Crea nuovi file con button "Nuovo"</li>
+    <li>Riquadro di dialogo Impostazioni per impostare settings da GUI</li>
+    <li>Riquadro di dialogo Informazioni</li>
+    <li>Acceleratori da tastiera per lancio rapido di richieste e ripristino</li>
+    <li>Lancio richieste massivo</li>
+    <li>Crea nuovi file con button "Nuovo"</li>
+    <li>Pacchetto di installazione FlatPack per sistemi Linux</li>
+</ul>
+
+#### Versione 1.2 (DONE)
+
+<ul>
+    <li>Icona applicazione</li>
+    <li>File .desktop per lancio da menu Applicazioni su Linux</li>
+    <li>Ottimizzazione del codice multi-threading di lancio richieste</li>
+    <li>Miglioramento delle note di avanzamento richiesta nel panello Log</li>
+</ul>
+
+#### Versione 1.1 (DONE)
+
+<ul>
+    <li>Panello Log con evidenziazione sintassi JSON</li>
+    <li>Lancio richieste non bloccanti su thread dedicati</li>
+    <li>Aggiungi richieste da file system all'endpoint corrente</li>
+    <li>Salva contenuto del pannello Log</li>
+</ul>
+
+#### Versione 1.0 (DONE)
+
+<ul>
+    <li>GUI GTK+: toolbar, pannello Lista Richieste, pannello Log, status bar</li>
+    <li>Carica endpoints e richieste da settings</li>
+    <li>Carica richieste da directory locale/remota</li>
+    <li>Esegui richieste UI-blocking verso token e BEXI Adapter</li>
+    <li>Consulta il log richieste nel pannello Log</li>
 </ul>
 
 ### Get in touch!
