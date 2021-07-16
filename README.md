@@ -89,7 +89,7 @@ Portarsi nella directory principale dell'applicazione e lanciare il comando:
 
 <pre><code>python3 bexi-hammer.py</code></pre>
 
-### BEXi Hammer integrazione Gnome su Linux
+### Integrazione in Gnome su Linux
 
 E' possibile lanciare BEXi Hammber dal menu Applicazioni di Gnome installando il file datadir/bexi-hammer.desktop in /usr/share/applications. Il file .desktop va editato per inserire manualmente il percorso alla directory che contiene i file dell'applicazione.
 
@@ -118,7 +118,6 @@ BEXi Hammer è un applicaione sviluppata e rilasciata a unico ed esclusivo scopo
 <ul>
     <li>Riquadro di dialogo Impostazioni per impostare settings da GUI</li>
     <li>Riquadro di dialogo Informazioni</li>
-    <li>Acceleratori da tastiera per lancio rapido di richieste e ripristino</li>
     <li>Lancio richieste massivo</li>
     <li>Crea nuovi file con button "Nuovo"</li>
     <li>Pacchetto di installazione FlatPack per sistemi Linux</li>
@@ -131,6 +130,7 @@ BEXi Hammer è un applicaione sviluppata e rilasciata a unico ed esclusivo scopo
     <li>File .desktop per lancio da menu Applicazioni su Linux</li>
     <li>Ottimizzazione del codice multi-threading di lancio richieste</li>
     <li>Miglioramento delle note di avanzamento richiesta nel panello Log</li>
+    <li>Acceleratori da tastiera per lancio rapido di richieste e ripristino</li>
 </ul>
 
 #### Versione 1.1 (DONE)
