@@ -106,6 +106,7 @@ class MainWindow(Gtk.ApplicationWindow):
     def app(self):
         return self.get_application()
 
+
     def on_dir_open(self, widget):
         endpoint_id = self.server_combo.get_active_id()
         if not endpoint_id:
@@ -161,7 +162,7 @@ class MainWindow(Gtk.ApplicationWindow):
                         "Prima di caricare un file, seleziona un ambiente"\
                         " in cui caricare il tracciato della richiesta.")
             return
-        dialog = Gtk.FileChooserDialog(title="Please choose a file",
+        dialog = Gtk.FileChooserDialog(title="Seleziona un file JSON",
                                        parent=self,
                                        action=Gtk.FileChooserAction.OPEN)
         dialog.add_buttons(Gtk.STOCK_CANCEL,

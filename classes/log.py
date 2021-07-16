@@ -37,9 +37,11 @@ class Log:
     def error(value):
         Log.get_log().debug(value)
     
+    
     @staticmethod
     def exception(exception):
         Log.get_log().debug(repr(exception))
+    
     
     @staticmethod
     def get_log():
@@ -53,5 +55,4 @@ class Log:
             Log._logger.setLevel(Log.LEVEL)
             Log._logger.addHandler(hdlr)
             Log._logger.addHandler(logging.StreamHandler(sys.stdout))
-
         return Log._logger

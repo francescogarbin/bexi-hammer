@@ -102,6 +102,7 @@ class RequestContext:
         except Exception as e:
             return {}
  
+ 
     @property
     def text(self):
         return json.dumps(self._json_body)
@@ -109,10 +110,12 @@ class RequestContext:
 
     @property
     def pretty_text(self):
+        ret = None
         try:
-            return json.dumps(self._json_body, indent=4, sort_keys=False)
+            ret = json.dumps(self._json_body, indent=4, sort_keys=False)
         except Exception as e:
-            return ""
+            ret = ""
+        return ret
 
     @property
     def events(self):

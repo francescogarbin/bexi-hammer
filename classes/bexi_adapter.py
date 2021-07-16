@@ -14,6 +14,7 @@ class BEXiAdapter:
         self._adapter_url = endpoint.adapter_url
         self._credentials = endpoint.credentials
 
+
     def get_token(self):
         try:
             response = req.get(self._token_url,

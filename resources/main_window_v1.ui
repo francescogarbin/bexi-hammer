@@ -96,10 +96,11 @@
                       <object class="GtkToolButton" id="file_open_button">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="tooltip-text" translatable="yes">Apri un file JSON con una nuova richiesta e lo aggiungi all'elenco richieste</property>
+                        <property name="tooltip-text" translatable="yes">Apri un file JSON con una nuova richiesta e lo aggiungi all'elenco richieste (CTRL+O)</property>
                         <property name="label" translatable="yes">Apri...</property>
                         <property name="use-underline">True</property>
                         <property name="stock-id">gtk-open</property>
+                        <accelerator key="o" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -110,9 +111,10 @@
                       <object class="GtkToolButton" id="dir_open_button">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="tooltip-text" translatable="yes">Carica tutti i file richiesta presenti in una cartella</property>
+                        <property name="tooltip-text" translatable="yes">Carica tutti i file richiesta presenti in una cartella (CTRL+SHIT+O)</property>
                         <property name="label" translatable="yes">Apri tutti...</property>
                         <property name="stock-id">gtk-directory</property>
+                        <accelerator key="o" signal="clicked" modifiers="GDK_SHIFT_MASK | GDK_CONTROL_MASK"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -123,10 +125,11 @@
                       <object class="GtkToolButton" id="file_save_button">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="tooltip-text" translatable="yes">Salva il file corrente</property>
+                        <property name="tooltip-text" translatable="yes">Salva il file corrente (CTRL+SHIFT+S)</property>
                         <property name="label" translatable="yes">Salva</property>
                         <property name="use-underline">True</property>
                         <property name="stock-id">gtk-save</property>
+                        <accelerator key="s" signal="clicked" modifiers="GDK_SHIFT_MASK | GDK_CONTROL_MASK"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -137,10 +140,11 @@
                       <object class="GtkToolButton" id="file_save_as_button">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="tooltip-text" translatable="yes">Salvi la richiesta e tutto il log in un file di testo </property>
+                        <property name="tooltip-text" translatable="yes">Salvi la richiesta e tutto il log in un file di testo (CTRL+S)</property>
                         <property name="label" translatable="yes">Salva Come...</property>
                         <property name="use-underline">True</property>
                         <property name="stock-id">gtk-save-as</property>
+                        <accelerator key="s" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -164,6 +168,7 @@
                         <property name="tooltip-text" translatable="yes">Esegui la richiesta selezionata verso l'ambiente corrente</property>
                         <property name="label" translatable="yes">Avvia</property>
                         <property name="stock-id">gtk-media-play</property>
+                        <accelerator key="Return" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -178,6 +183,7 @@
                         <property name="label" translatable="yes">Pausa</property>
                         <property name="use-underline">True</property>
                         <property name="stock-id">gtk-media-pause</property>
+                        <accelerator key="space" signal="clicked"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -188,10 +194,11 @@
                       <object class="GtkToolButton" id="stop_button">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="tooltip-text" translatable="yes">Arresta la richiesta in corso e non ancora completata</property>
+                        <property name="tooltip-text" translatable="yes">Arresta la richiesta in corso e non ancora completata (CTRL+ESC)</property>
                         <property name="label" translatable="yes">Arresta</property>
                         <property name="use-underline">True</property>
                         <property name="stock-id">gtk-media-stop</property>
+                        <accelerator key="Escape" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -212,8 +219,10 @@
                       <object class="GtkToolButton" id="reset_button">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Ripristina la richiesta corrente per una nuova esecuzione (CTRL+R)</property>
                         <property name="label" translatable="yes">Ripristina</property>
                         <property name="stock-id">gtk-revert-to-saved</property>
+                        <accelerator key="r" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>

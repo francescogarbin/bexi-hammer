@@ -45,7 +45,7 @@ class SourceView:
     def set_request_context(self, ctx):
         self._buf = self._view.get_buffer()
         if None == ctx:
-            self._buf.set_text(None)
+            self._buf.set_text("")
             return
         self._request_context = ctx
         self._file_path = self._request_context.file_path
