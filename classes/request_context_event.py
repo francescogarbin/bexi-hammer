@@ -1,9 +1,13 @@
+import time
+from datetime import datetime
+
 class RequestContextEvent:
 
     def __init__(self):
         self._title = None
         self._description = None
         self._trace = None
+        self._timestamp = time.time()
 
 
     @property
@@ -40,14 +44,13 @@ class RequestContextEvent:
     def trace(self, value):
         self._trace = value
 
+
+    @property
+    def timestamp(self):
+        return self._timestamp
         
-    def to_string(self):
-        ret = ""
-        if self._title:
-            ret += "{}\n".format(self._title)
-        if self._description:
-            ret += "{}\n".format(self._description)
-        if self._trace:
-            ret += "{}\n".format(self._trace)
-        return ret
+    
+    @timestamp.setter
+    def timestamp(self, value):
+        self._timestamp = value
 

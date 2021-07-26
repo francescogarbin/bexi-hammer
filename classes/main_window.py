@@ -16,7 +16,7 @@ from .request_context import RequestContextEvent
 from .request_context import RequestContextStatus
 from .endpoint import Endpoint
 from .log import Log as log
-
+from .log_view import LogView
 
 @Gtk.Template(filename="resources/main_window_v1.ui")
 class MainWindow(Gtk.ApplicationWindow):
@@ -48,6 +48,7 @@ class MainWindow(Gtk.ApplicationWindow):
     reset_button = Gtk.Template.Child('reset_button')
     settings_button = Gtk.Template.Child('settings_button')
     about_button = Gtk.Template.Child('about_button')
+    log_textview = Gtk.Template.Child('log_textview')
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -81,6 +82,8 @@ class MainWindow(Gtk.ApplicationWindow):
         self.server_combo.set_model(combo_model)
         self.server_combo.set_active_id(endpoint_id)
         self.server_combo.connect("changed", self.on_endpoint_changed)
+        #setup della log view
+        self.log_view = LogView(self.log_textview)
         #setup delle actions
         self.file_open_button.connect("clicked", self.on_file_open)
         self.dir_open_button.connect("clicked", self.on_dir_open)
@@ -239,6 +242,7 @@ class MainWindow(Gtk.ApplicationWindow):
             ctx.thread = threading.Thread(target=self._post_request,
                                           args=(ctx, endpoint_id),
                                           daemon=True)
+            self.log_view.clear()
             ctx.thread.start()
         except Exception as e:
             self._handle_exception(e)      
@@ -261,6 +265,7 @@ class MainWindow(Gtk.ApplicationWindow):
         self.source_view.set_request_context(ctx)
         self._set_files_listbox_row_status(ctx)
         self._inflect_request_context_status(ctx)
+        self.log_view.clear()
         
     
     def on_endpoint_changed(self, entry):
@@ -281,6 +286,7 @@ class MainWindow(Gtk.ApplicationWindow):
             self.adapter_url_label.set_text(adapter_url)
             self.token_url_label.set_text(token_url)
             self._inflect_request_context_status(ctx)
+            self.log_view.append_request_context_events(ctx.events)
                 
 
     def on_refresh_files(self, widget):
@@ -445,7 +451,7 @@ class MainWindow(Gtk.ApplicationWindow):
     def _append_event(self, request_context, event):
         row = self.files_listbox.get_selected_row()
         if row.request_context_identifier == request_context.identifier:
-            self.source_view.append(event.to_string())
+            self.log_view.append_request_context_event(event)
 
 
     def _get_selected_request_context(self):
@@ -470,28 +476,32 @@ class MainWindow(Gtk.ApplicationWindow):
             event = request_context.add_log_event(
                                 "Invio richiesta GET token autenticazione...",
                                 "Endpoint: {}".format(endpoint.token_url))
+            GLib.idle_add(self._append_event, request_context, event)
             token = bexi.get_token()
             event = request_context.add_completion_event(
                                  "Token ricevuto dal server",
                                  "Endpoint: {}".format(endpoint.token_url),
-                                 json.dumps(token, indent=4))                
+                                 json.dumps(token, indent=4))
+            GLib.idle_add(self._append_event, request_context, event)               
             event = request_context.add_log_event(
                                  "Invio richiesta POST a BEXi Adapter...",
                                  "Endpoint: {}".format(endpoint.adapter_url))
+            GLib.idle_add(self._append_event, request_context, event)
             request_body = self.source_view.text
             outcome = bexi.start_new_task(token, request_body)
             event = request_context.add_completion_event(
                                 "Risposta ricevuta dal server",
                                 "Endpoint: {}".format(endpoint.adapter_url),
                                 json.dumps(outcome, indent=4))
+            GLib.idle_add(self._append_event, request_context, event)
         except Exception as e:
             event = request_context.add_error_event(
-                                "Dinosauro, qualcosa è andato storto!",
+                                "Ooops, qualcosa è andato storto!",
                                 str(e))
+            GLib.idle_add(self._append_event, request_context, event)
         finally:
-            GLib.idle_add(self.source_view.set_request_context, request_context)
+            #GLib.idle_add(self.log_view.append_request_context_events,
+            #                                            request_context.events)
             GLib.idle_add(self._inflect_request_context_status, request_context)
             GLib.idle_add(self._set_files_listbox_row_status, request_context)
-            
-        
-        
+

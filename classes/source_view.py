@@ -42,18 +42,6 @@ class SourceView:
         return self._request_context
         
         
-    def set_request_context(self, ctx):
-        self._buf = self._view.get_buffer()
-        if None == ctx:
-            self._buf.set_text("")
-            return
-        self._request_context = ctx
-        self._file_path = self._request_context.file_path
-        self._buf.set_text(self._request_context.pretty_text)
-        for event in self._request_context.events:
-            self.append(event.to_string())
-        
-        
     @property
     def view(self):
         return self._view
@@ -71,7 +59,17 @@ class SourceView:
         text = self._buf.get_text(startIter, endIter, False) 
         return text
         
+
+    def set_request_context(self, ctx):
+        self._buf = self._view.get_buffer()
+        if None == ctx:
+            self._buf.set_text("")
+            return
+        self._request_context = ctx
+        self._file_path = self._request_context.file_path
+        self._buf.set_text(self._request_context.pretty_text)
         
+                
     def append(self, text):
         self._buf = self._view.get_buffer()
         end_iter = self._buf.get_end_iter()

@@ -1,4 +1,6 @@
-import os, sys, json
+import os
+import sys
+import json
 
 class Endpoint:
     
