@@ -113,13 +113,14 @@ BEXi Hammer è un applicaione sviluppata e rilasciata a unico ed esclusivo scopo
 
 ### Roadmap di sviluppo
 
-#### Versione 1.3 (BACKLOG)
+#### Versione 1.3 (DOING)
 
 <ul>
+    <li>Nuovo pannello di log della richiesta, ridimensionabile e scrollabile</li> 
     <li>Riquadro di dialogo Impostazioni per impostare settings da GUI</li>
     <li>Riquadro di dialogo Informazioni</li>
     <li>Lancio richieste massivo</li>
-    <li>Crea nuovi file con button "Nuovo"</li>
+    <li>Crea nuove richieste JSON con button "Nuovo"</li>
     <li>Pacchetto di installazione FlatPack per sistemi Linux</li>
 </ul>
 
