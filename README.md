@@ -2,13 +2,13 @@
 
 BEXi Hammer semplifica i test di chiamata a BluCRM BEXiAdapter con un ambiente grafico che mostra chiaramente le richieste disponibili e ne permette l'esecuzione in pochi clic del mouse.   
 
-![bexi-hammer-window](https://user-images.githubusercontent.com/571018/125756051-d19ada43-b136-4a5f-9117-bb1bc24d53a4.png)
+![demo](https://user-images.githubusercontent.com/571018/127547069-d127181e-e4c7-4564-a55b-25c4feb61f4b.png)
 
 La lista delle richieste, sulla sinistra, riporta l'elenco dei file di richiesta disponibili per l'ambiente BEXi selezionato nella combo box. Il pannello di destra, chiamato Log, riporta il tracciato JSON della richiesta attualmente selezionata, la sintassi è evidenziata per facilitar la lettura del tracciato.
 
 Puoi lanciare la richiesta selezionata nella lista richieste con un clic sul pulsante Esegui... nella toolbar. Il Log ti aggiornerà con tutti i progressi della chiamata al servizio BluCRM BEXi previsto dalla richiesta.
 
-BEXi Hammer è un'applicazione multi-threading e può lanciare più richieste contemporaneamente. Lancia la seconda richiesta mentre la prima è in esecuzione e così via.
+BEXi Hammer è un'applicazione multi-threading: può lanciare e tracciare più richieste contemporaneamente. Lancia la seconda richiesta mentre la prima è in esecuzione e così via.
 
 ### Ambienti e endpoint BEXi
 
@@ -46,7 +46,7 @@ La configurazione di un endpoint prevede pochi campi, eccoli nell'esempio sotto.
             "identifier":"secondo-endpoint"
             ,"visible_name":"Il mio secondo endpoint"
             ,"requests_files_path":"/home/tuonome/secondo-endpoint-richieste"
-            ,"server_url":"https://secondo.altrodominio.com"
+            ,"server_url":"https://www.altrodominio.com:1234"
             ,"token_route":"IBexAdapter/token"
             ,"adapter_route":"IBexAdapter/api/FrontOffice/startNewTask"
             ,"credentials": {
@@ -62,7 +62,7 @@ La configurazione di un endpoint prevede pochi campi, eccoli nell'esempio sotto.
 }
 </code></pre>
 
-Il file di configurazione è in formato JSON e può ospitare una collection di endpoint. Nell'esempio sopra ne trovi inseriti un paio. BluCRM ti comunicherà tutte le coordinata necessarie degli endpoint e le relative credenziali.
+Il file di configurazione è in formato JSON e può ospitare una collection di endpoint. Nell'esempio sopra ne trovi inseriti un paio. BluCRM ti comunicherà tutte le coordinata necessarie degli endpoint e le relative credenziali da impostare nella sezione <code>credentials</code>.
 
 Apri il file di configurazione per trovare un esempio "dummy" di un endpoint, rispettando la sintassi, sopra esemplificata, puoi aggiungerne quanti ne vuoi.
 
@@ -105,22 +105,23 @@ Purtroppo non dispongo un Mac recente su cui compilare il pacchetto di installaz
 
 ### Licenza d'uso e modifiche al codice sorgente
 
-BEXi Hammer è un'applicazione che ha funzioni dimostrative, il codice è rilasciato sotto licenza GNU GENERAL PUBLIC LICENSE V3 per consentirti di modificare il codice a tuo piacimento.
+BEXi Hammer è un'applicazione che ha funzioni dimostrative, il codice è rilasciato sotto licenza [GNU GENERAL PUBLIC LICENSE V3](https://www.gnu.org/licenses/gpl-3.0.html) per consentirti di modificare il codice a tuo piacimento.
 
 ### Disclaimer e clausole di utilizzo
 
-BEXi Hammer è un applicaione sviluppata e rilasciata a unico ed esclusivo scopo dimostrativo. BEXi Hammer non è un prodotto di BluCRM Srl e pertanto non gode di alcuna clausola di supporto ufficiale e manutenzione. BEXi Hammer è rilasciato senza alcuna garanzia di funzionamento e di future evoluzioni e manutenzioni.
+BEXi Hammer non è un prodotto di BluCRM Srl e pertanto non gode di alcuna clausola di supporto ufficiale e manutenzione. BEXi Hammer è un applicazione sviluppata e rilasciata a unico ed esclusivo scopo dimostrativo.  BEXi Hammer è rilasciato senza alcuna garanzia di funzionamento e di future evoluzioni e manutenzioni.
 
 ### Roadmap di sviluppo
 
-#### Versione 1.3 (BACKLOG)
+#### Versione 1.3 (DOING)
 
 <ul>
-    <li>Riquadro di dialogo Impostazioni per impostare settings da GUI</li>
-    <li>Riquadro di dialogo Informazioni</li>
-    <li>Lancio richieste massivo</li>
-    <li>Crea nuovi file con button "Nuovo"</li>
-    <li>Pacchetto di installazione FlatPack per sistemi Linux</li>
+    <li>Nuovo pannello di log della richiesta, ridimensionabile e scrollabile (DONE)</li> 
+    <li>Riquadro di dialogo Informazioni (DOING)</li>
+    <li>Riquadro di dialogo Impostazioni per impostare settings da GUI (TODO)</li>
+    <li>Crea nuove richieste JSON con button "Nuovo" (TODO)</li>
+    <li>Lancio richieste massivo (TODO)</li>
+    <li>Pacchetto di installazione FlatPack per sistemi Linux (TODO)</li>
 </ul>
 
 #### Versione 1.2 (DONE)
@@ -154,4 +155,4 @@ BEXi Hammer è un applicaione sviluppata e rilasciata a unico ed esclusivo scopo
 
 ### Get in touch!
 
-BEXi Hammer è il risultato del lavoro di qualche weekend. Mi ha aiutato moltissimo a capire la logica delle chiamate BEXi e mi sono divertito una cifra a scriverlo. Se ne hai voglia, scrivimi a francescogarbin@gmail.com: mi farebbe piacere avere dei suggerimenti :-)
+BEXi Hammer è il risultato del lavoro di qualche weekend. Mi ha aiutato moltissimo a capire la logica delle chiamate BEXi e mi sono divertito nello scriverlo a beneficio dei team che interfacciano BEXi. Sccrivimi a francescogarbin@gmail.com: mi farebbe piacere avere dei suggerimenti :-)
