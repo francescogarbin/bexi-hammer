@@ -25,7 +25,7 @@ class SourceView:
         self._view.set_background_pattern(GtkSource.BackgroundPatternType.GRID)
         self._view.set_cursor_visible(True)
         self._buf = self._view.get_buffer()
-        self._buf.set_highlight_syntax(True)      
+        self._buf.set_highlight_syntax(True)
         lang_manager = GtkSource.LanguageManager()
         lang = lang_manager.get_language(self.language_id)
         if None != lang :

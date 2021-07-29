@@ -49,10 +49,13 @@ class Log:
             formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
             path = appdirs.user_log_dir(Log.APPNAME, Log.AUTHOR)
             os.makedirs(os.path.dirname(path), exist_ok=True)
-            hdlr = logging.FileHandler(path)
-            hdlr.setFormatter(formatter)
+            file_handler = logging.FileHandler(path)
+            file_handler.setFormatter(formatter)
+            stdout_handler = logging.StreamHandler()
+            stdout_handler.setFormatter(formatter)
             Log._logger = logging.getLogger(Log.APPNAME)
             Log._logger.setLevel(Log.LEVEL)
-            Log._logger.addHandler(hdlr)
-            Log._logger.addHandler(logging.StreamHandler(sys.stdout))
+            Log._logger.addHandler(file_handler)
+            Log._logger.addHandler(stdout_handler)
         return Log._logger
+

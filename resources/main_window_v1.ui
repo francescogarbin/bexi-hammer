@@ -125,7 +125,7 @@
                       <object class="GtkToolButton" id="file_save_button">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="tooltip-text" translatable="yes">Salva il file corrente (CTRL+SHIFT+S)</property>
+                        <property name="tooltip-text" translatable="yes">Salva le modifiche della richiesta corrente (CTRL+SHIFT+S)</property>
                         <property name="label" translatable="yes">Salva</property>
                         <property name="use-underline">True</property>
                         <property name="stock-id">gtk-save</property>
@@ -140,8 +140,8 @@
                       <object class="GtkToolButton" id="file_save_as_button">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="tooltip-text" translatable="yes">Salvi la richiesta e tutto il log in un file di testo (CTRL+S)</property>
-                        <property name="label" translatable="yes">Salva Come...</property>
+                        <property name="tooltip-text" translatable="yes">Salva la richiesta corrente in un nuovo file (CTRL+S)</property>
+                        <property name="label" translatable="yes">Salva come...</property>
                         <property name="use-underline">True</property>
                         <property name="stock-id">gtk-save-as</property>
                         <accelerator key="s" signal="clicked" modifiers="GDK_CONTROL_MASK"/>

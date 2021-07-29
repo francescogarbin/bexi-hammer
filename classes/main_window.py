@@ -203,7 +203,7 @@ class MainWindow(Gtk.ApplicationWindow):
         try:
             endpoint_id = self.server_combo.get_active_id()
             ctx = self._get_selected_request_context()
-            with open(ctx.file_path, "w") as text_file:
+            with open(ctx.file_path, mode="w", encoding="utf-8") as text_file:
                 text_file.write(self.source_view.text)
             ctx = self.app.reload_endpoint_request(endpoint_id, ctx.identifier)
             self.source_view.set_request_context(ctx)
@@ -229,7 +229,7 @@ class MainWindow(Gtk.ApplicationWindow):
             file_path = dialog.get_filename()
         dialog.destroy()
         if file_path:
-            with open(file_path, "w") as text_file:
+            with open(file_path, mode="w", encoding="utf-8") as text_file:
                 text_file.write(self.source_view.text)
 
 
@@ -474,25 +474,27 @@ class MainWindow(Gtk.ApplicationWindow):
             endpoint = self.app.get_endpoint(endpoint_id)
             bexi = BEXiAdapter(endpoint)
             event = request_context.add_log_event(
-                                "Invio richiesta GET token autenticazione...",
-                                "Endpoint: {}".format(endpoint.token_url))
+                            "Invio richiesta GET token autenticazione...",
+                            "Endpoint: {}".format(endpoint.token_url))
             GLib.idle_add(self._append_event, request_context, event)
             token = bexi.get_token()
             event = request_context.add_completion_event(
-                                 "Token ricevuto dal server",
-                                 "Endpoint: {}".format(endpoint.token_url),
-                                 json.dumps(token, indent=4))
+                             "Token di autenticazione ricevuto dal server",
+                             "Endpoint: {}".format(endpoint.token_url),
+                             json.dumps(token, indent=4, ensure_ascii=False))
+                             #json.dumps({}))
             GLib.idle_add(self._append_event, request_context, event)               
             event = request_context.add_log_event(
-                                 "Invio richiesta POST a BEXi Adapter...",
-                                 "Endpoint: {}".format(endpoint.adapter_url))
+                             "Invio richiesta POST a BEXi Adapter...",
+                             "Endpoint: {}".format(endpoint.adapter_url))
             GLib.idle_add(self._append_event, request_context, event)
-            request_body = self.source_view.text
+            request_body = self.source_view.text.encode()
             outcome = bexi.start_new_task(token, request_body)
+            outcome_json = json.dumps(outcome, indent=4, ensure_ascii=False)#.encode('utf8')
             event = request_context.add_completion_event(
-                                "Risposta ricevuta dal server",
-                                "Endpoint: {}".format(endpoint.adapter_url),
-                                json.dumps(outcome, indent=4))
+                            "Risposta ricevuta dal server",
+                            "Endpoint: {}".format(endpoint.adapter_url),
+                            outcome_json)
             GLib.idle_add(self._append_event, request_context, event)
         except Exception as e:
             event = request_context.add_error_event(

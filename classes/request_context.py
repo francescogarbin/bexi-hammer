@@ -29,7 +29,7 @@ class RequestContext:
     def create_from_json_file(endpoint_id, file_path):
         ctx = None
         try:
-            with open(file_path) as json_file:
+            with open(file_path, mode='r', encoding='utf-8') as json_file:
                 json_dict = json.load(json_file)
             ctx = RequestContext(endpoint_id, json_dict, file_path)
         except Exception as jsonex:
@@ -105,14 +105,17 @@ class RequestContext:
  
     @property
     def text(self):
-        return json.dumps(self._json_body)
+        return json.dumps(self._json_body, ensure_ascii=False)
 
 
     @property
     def pretty_text(self):
         ret = None
         try:
-            ret = json.dumps(self._json_body, indent=4, sort_keys=False)
+            ret = json.dumps(self._json_body,
+                             indent=4,
+                             sort_keys=False,
+                             ensure_ascii=False)
         except Exception as e:
             ret = ""
         return ret
