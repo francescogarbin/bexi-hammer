@@ -49,6 +49,7 @@ class MainWindow(Gtk.ApplicationWindow):
     settings_button = Gtk.Template.Child('settings_button')
     about_button = Gtk.Template.Child('about_button')
     log_textview = Gtk.Template.Child('log_textview')
+    about_dialog = Gtk.Template.Child('about-dialog')
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -300,9 +301,10 @@ class MainWindow(Gtk.ApplicationWindow):
 
         
     def on_about(self,widget):
-        about_dialog = Gtk.AboutDialog(transient_for=self, modal=True)
-        about_dialog.present()
-
+        self.about_dialog.show_all()
+        self.about_dialog.run() 
+        self.about_dialog.hide()
+            
     
     def _set_status_text(self, text):
         context_id = self.statusbar.get_context_id("status") 
