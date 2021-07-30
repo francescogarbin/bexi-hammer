@@ -155,4 +155,4 @@ BEXi Hammer non è un prodotto di BluCRM Srl e pertanto non gode di alcuna claus
 
 ### Get in touch!
 
-BEXi Hammer è il risultato del lavoro di qualche weekend. Mi ha aiutato moltissimo a capire la logica delle chiamate BEXi e mi sono divertito nello scriverlo a beneficio dei team che interfacciano BEXi. Sccrivimi a francescogarbin@gmail.com: mi farebbe piacere avere dei suggerimenti :-)
+BEXi Hammer è il risultato del lavoro di qualche weekend. Mi ha aiutato moltissimo a capire la logica delle chiamate BEXi e mi sono divertito nello scriverlo a beneficio dei team che interfacciano BEXi. Scrivimi a francescogarbin@gmail.com: mi farebbe piacere avere dei suggerimenti :-)
