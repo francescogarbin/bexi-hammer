@@ -121,7 +121,7 @@ BEXi Hammer non è un prodotto di BluCRM Srl e pertanto non gode di alcuna claus
     <li>Riquadro di dialogo Impostazioni per impostare settings da GUI (TODO)</li>
     <li>Crea nuove richieste JSON con button "Nuovo" (TODO)</li>
     <li>Lancio richieste massivo (TODO)</li>
-    <li>Pacchetto di installazione FlatPack per sistemi Linux (TODO)</li>
+    <li>Pacchetto di installazione Flatpak per Linux (TODO)</li>
 </ul>
 
 #### Versione 1.2 (DONE)
