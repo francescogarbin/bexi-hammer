@@ -17,6 +17,7 @@ from .request_context import RequestContextStatus
 from .endpoint import Endpoint
 from .log import Log as log
 from .log_view import LogView
+from .settings_dialog import SettingsDialog
 
 @Gtk.Template(filename="resources/main_window_v1.ui")
 class MainWindow(Gtk.ApplicationWindow):
@@ -204,8 +205,10 @@ class MainWindow(Gtk.ApplicationWindow):
         try:
             endpoint_id = self.server_combo.get_active_id()
             ctx = self._get_selected_request_context()
+            json_text = self.source_view.text
+            RequestContext.validate_json_text(json_text)
             with open(ctx.file_path, mode="w", encoding="utf-8") as text_file:
-                text_file.write(self.source_view.text)
+                text_file.write(json_text)
             ctx = self.app.reload_endpoint_request(endpoint_id, ctx.identifier)
             self.source_view.set_request_context(ctx)
             self._set_files_listbox_row_status(ctx)
@@ -215,23 +218,27 @@ class MainWindow(Gtk.ApplicationWindow):
 
 
     def on_file_save_as(self, widget):
-        dialog = Gtk.FileChooserDialog(title="Salva con nome",
-                                       parent=self,
-                                       action=Gtk.FileChooserAction.SAVE)
-        dialog.add_buttons(Gtk.STOCK_CANCEL,
-                           Gtk.ResponseType.CANCEL,
-                           Gtk.STOCK_SAVE,
-                           Gtk.ResponseType.OK)
-        dialog.set_current_name("Senza titolo.txt")
-        dialog.set_do_overwrite_confirmation(True)
-        response = dialog.run()
-        file_path = None
-        if response == Gtk.ResponseType.OK:
-            file_path = dialog.get_filename()
-        dialog.destroy()
-        if file_path:
-            with open(file_path, mode="w", encoding="utf-8") as text_file:
-                text_file.write(self.source_view.text)
+        try:
+            RequestContext.validate_json_text(self.source_view.text)
+            dialog = Gtk.FileChooserDialog(title="Salva con nome",
+                                           parent=self,
+                                           action=Gtk.FileChooserAction.SAVE)
+            dialog.add_buttons(Gtk.STOCK_CANCEL,
+                               Gtk.ResponseType.CANCEL,
+                               Gtk.STOCK_SAVE,
+                               Gtk.ResponseType.OK)
+            dialog.set_current_name("Senza titolo.txt")
+            dialog.set_do_overwrite_confirmation(True)
+            response = dialog.run()
+            file_path = None
+            if response == Gtk.ResponseType.OK:
+                file_path = dialog.get_filename()
+            dialog.destroy()
+            if file_path:
+                with open(file_path, mode="w", encoding="utf-8") as text_file:
+                    text_file.write(self.source_view.text)
+        except Exception as e:
+            self._handle_exception(e)
 
 
     def on_run_request(self, widget):
@@ -297,7 +304,9 @@ class MainWindow(Gtk.ApplicationWindow):
 
 
     def on_settings(self, widget):
-        log.debug("MainWindow.on_settings() non ancora implementato.")
+        settings_dialog = SettingsDialog()
+        settings_dialog.run()
+        
 
         
     def on_about(self,widget):
@@ -375,7 +384,7 @@ class MainWindow(Gtk.ApplicationWindow):
 
 
     def _handle_exception(self, ex):
-        message = getattr(ex, 'message', repr(ex))
+        message = getattr(ex, 'message', str(ex))
         log.exception(ex);
         dialog = Gtk.MessageDialog(parent=self,
                                    flags=Gtk.DialogFlags.MODAL,

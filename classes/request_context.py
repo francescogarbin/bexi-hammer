@@ -53,6 +53,15 @@ class RequestContext:
         return os.path.basename(file_path)
         
         
+    def validate_json_text(json_text):
+        try:
+            json_obj = json.loads(json_text)
+        except Exception as ex:
+            msg = "Il formato JSON della richiesta non è valido.\n{}"
+            raise Exception(msg.format(repr(ex)))
+        return True
+
+
     def __init__(self, endpoint_id, json_dict, file_path):
         self._endpoint_id = endpoint_id
         self._identifier = RequestContext.build_identier(file_path)
