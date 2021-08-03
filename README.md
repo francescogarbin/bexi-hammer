@@ -4,9 +4,9 @@ BEXi Hammer semplifica i test di chiamata a BluCRM BEXiAdapter con un ambiente g
 
 ![demo](https://user-images.githubusercontent.com/571018/127547069-d127181e-e4c7-4564-a55b-25c4feb61f4b.png)
 
-La lista delle richieste, sulla sinistra, riporta l'elenco dei file di richiesta disponibili per l'ambiente BEXi selezionato nella combo box. Il pannello di destra, chiamato Log, riporta il tracciato JSON della richiesta attualmente selezionata, la sintassi è evidenziata per facilitar la lettura del tracciato.
+La lista delle richieste, sulla sinistra, riporta l'elenco dei file di richiesta disponibili per l'ambiente BEXi selezionato nella combo box <i>Ambiente</i>. Il pannello di destra, Log Richiesta, riporta il tracciato JSON della richiesta attualmente selezionata; la sintassi è evidenziata per facilitare la lettura del tracciato.
 
-Puoi lanciare la richiesta selezionata nella lista richieste con un clic sul pulsante Esegui... nella toolbar. Il Log ti aggiornerà con tutti i progressi della chiamata al servizio BluCRM BEXi previsto dalla richiesta.
+Puoi lanciare la richiesta selezionata nella lista richieste con un clic sul pulsante <i>Esegui...</i> nella toolbar. Il Log ti aggiornerà con tutti i progressi della chiamata al servizio BluCRM BEXi previsto dalla richiesta.
 
 BEXi Hammer è un'applicazione multi-threading: può lanciare e tracciare più richieste contemporaneamente. Lancia la seconda richiesta mentre la prima è in esecuzione e così via.
 
@@ -121,7 +121,7 @@ BEXi Hammer non è un prodotto di BluCRM Srl e pertanto non gode di alcuna claus
     <li>Riquadro di dialogo Impostazioni per impostare settings da GUI (TODO)</li>
     <li>Crea nuove richieste JSON con button "Nuovo" (TODO)</li>
     <li>Lancio richieste massivo (TODO)</li>
-    <li>Pacchetto di installazione FlatPack per sistemi Linux (TODO)</li>
+    <li>Pacchetto di installazione Flatpak per Linux (TODO)</li>
 </ul>
 
 #### Versione 1.2 (DONE)
@@ -155,4 +155,4 @@ BEXi Hammer non è un prodotto di BluCRM Srl e pertanto non gode di alcuna claus
 
 ### Get in touch!
 
-BEXi Hammer è il risultato del lavoro di qualche weekend. Mi ha aiutato moltissimo a capire la logica delle chiamate BEXi e mi sono divertito nello scriverlo a beneficio dei team che interfacciano BEXi. Sccrivimi a francescogarbin@gmail.com: mi farebbe piacere avere dei suggerimenti :-)
+BEXi Hammer è il risultato del lavoro di qualche weekend. Mi ha aiutato moltissimo a capire la logica delle chiamate BEXi e mi sono divertito nello scriverlo a beneficio dei team che interfacciano BEXi. Scrivimi a francescogarbin@gmail.com: mi farebbe piacere avere dei suggerimenti :-)
