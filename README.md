@@ -2,7 +2,7 @@
 
 BEXi Hammer semplifica i test di chiamata a BluCRM BEXiAdapter con un ambiente grafico che mostra chiaramente le richieste disponibili e ne permette l'esecuzione in pochi clic del mouse.   
 
-![demo](https://user-images.githubusercontent.com/571018/127547069-d127181e-e4c7-4564-a55b-25c4feb61f4b.png)
+![bexi-hammer-1 3-20210805](https://user-images.githubusercontent.com/571018/128317035-bad33848-7370-4cbd-8da6-f8b8a33d8fe1.png)
 
 La lista delle richieste, sulla sinistra, riporta l'elenco dei file di richiesta disponibili per l'ambiente BEXi selezionato nella combo box <i>Ambiente</i>. Il pannello di destra, Log Richiesta, riporta il tracciato JSON della richiesta attualmente selezionata; la sintassi è evidenziata per facilitare la lettura del tracciato.
 
