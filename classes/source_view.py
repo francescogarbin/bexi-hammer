@@ -7,6 +7,7 @@ gi.require_version('GtkSource', '4')
 from gi.repository import GtkSource
 from gi.repository import Pango
 
+
 class SourceView:
 
     language_id = 'python'
@@ -35,22 +36,18 @@ class SourceView:
         if None != style:
             self._buf.set_style_scheme(style)
         self._request_context = None
-    
-    
+
     @property
     def request_context(self):
         return self._request_context
-        
-        
+
     @property
     def view(self):
         return self._view
 
-    
     @view.setter
     def view(self, value):
         self._view = value
-
 
     @property
     def text(self):
@@ -58,7 +55,6 @@ class SourceView:
         startIter, endIter = self._buf.get_bounds()    
         text = self._buf.get_text(startIter, endIter, False) 
         return text
-        
 
     def set_request_context(self, ctx):
         self._buf = self._view.get_buffer()
@@ -68,8 +64,7 @@ class SourceView:
         self._request_context = ctx
         self._file_path = self._request_context.file_path
         self._buf.set_text(self._request_context.pretty_text)
-        
-                
+
     def append(self, text):
         self._buf = self._view.get_buffer()
         end_iter = self._buf.get_end_iter()

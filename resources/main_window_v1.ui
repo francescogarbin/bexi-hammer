@@ -10,7 +10,7 @@
     <property name="version">1.3</property>
     <property name="copyright" translatable="yes">© 2021 Francesco Garbin
 Distillato in Python 3 su GTK+</property>
-    <property name="comments" translatable="yes">Fai conoscenza con la web API BEXi</property>
+    <property name="comments" translatable="yes">Fai conoscenza con le web API di BluCRM BEXi</property>
     <property name="website">https://github.com/francescogarbin/bexi-hammer</property>
     <property name="website-label" translatable="yes">Vedi su GitHub</property>
     <property name="license" translatable="yes">Questo programma non fornisce alcuna garanzia.
@@ -138,6 +138,21 @@ Per maggiori informazioni consultare &lt;a href="https://www.gnu.org/licenses/gp
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="toolbar-style">both</property>
+                    <child>
+                      <object class="GtkToolButton" id="file_new_button">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Crea un nuovo file di richiesta JSON nella directory dell'endpoint selezionato</property>
+                        <property name="label" translatable="yes">Nuovo</property>
+                        <property name="use-underline">True</property>
+                        <property name="stock-id">gtk-new</property>
+                        <accelerator key="n" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
+                      </packing>
+                    </child>
                     <child>
                       <object class="GtkToolButton" id="file_open_button">
                         <property name="visible">True</property>

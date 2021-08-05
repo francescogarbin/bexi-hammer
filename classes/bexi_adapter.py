@@ -1,5 +1,5 @@
-import json
 import requests as req
+
 
 class BEXiAdapter:
 
@@ -13,7 +13,6 @@ class BEXiAdapter:
         self._token_url = endpoint.token_url
         self._adapter_url = endpoint.adapter_url
         self._credentials = endpoint.credentials
-
 
     def get_token(self):
         try:
@@ -32,7 +31,6 @@ class BEXiAdapter:
             raise Exception(BEXiAdapter.MSG_GENERIC_ERR.format(str(reqex)))
         except Exception as e:
             raise Exception(BEXiAdapter.MSG_GENERIC_ERR.format(str(e)))
-                        
 
     def start_new_task(self, json_token, json_body):
         try:        
@@ -53,7 +51,6 @@ class BEXiAdapter:
             raise Exception(BEXiAdapter.MSG_GENERIC_ERR.format(str(reqex)))
         except Exception as e:
             raise Exception(BEXiAdapter.MSG_GENERIC_ERR.format(str(e)))
-
 
     def _get_request_headers(self, json_token):
         access_token = json_token['access_token']

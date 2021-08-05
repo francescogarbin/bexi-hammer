@@ -1,7 +1,7 @@
 import os
-import sys
 import logging
 import appdirs
+
 
 class Log:
     """ Factory del logger globale. L'istanza viene creata, se non presente,
@@ -21,28 +21,24 @@ class Log:
     @staticmethod
     def debug(value):
         Log.get_log().debug(value)
-    
-    
+
     @staticmethod
     def info(value):
         Log.get_log().debug(value)
-    
-    
+
     @staticmethod
     def warn(value):
         Log.get_log().debug(value)
-    
-    
+
     @staticmethod
     def error(value):
         Log.get_log().debug(value)
-    
-    
+
     @staticmethod
     def exception(exception):
-        Log.get_log().debug(repr(exception))
-    
-    
+        #Log.get_log().debug(repr(exception))
+        Log.get_log().exception(exception)
+
     @staticmethod
     def get_log():
         if not Log._logger:
