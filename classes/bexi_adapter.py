@@ -27,7 +27,7 @@ class BEXiAdapter:
             raise Exception(BEXiAdapter.MSG_TIMEOUT_ERR.format(str(timeoutex)))
         except req.exceptions.TooManyRedirects as redirex:
             raise Exception(BEXiAdapter.MSG_REDIRECT_ERR.format(str(redirex)))
-        except req.exceptions.RequestsException as reqex:
+        except req.exceptions.RequestException as reqex:
             raise Exception(BEXiAdapter.MSG_GENERIC_ERR.format(str(reqex)))
         except Exception as e:
             raise Exception(BEXiAdapter.MSG_GENERIC_ERR.format(str(e)))
