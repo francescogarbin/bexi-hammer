@@ -16,7 +16,8 @@ from .log import Log as log
 from .log_view import LogView
 from .settings_dialog import SettingsDialog
 from .main_window_state import MainWindowState
-
+from .dao_base import DaoBase
+from .notification_dao import NotificationDao
 
 @Gtk.Template(filename="resources/main_window_v1.ui")
 class MainWindow(Gtk.ApplicationWindow):
@@ -96,7 +97,8 @@ class MainWindow(Gtk.ApplicationWindow):
         self.files_listbox.show()
         self.show_all()
         self._hide_files_listbox_statuses()
-
+        #self._test_db_connection()
+    
     @property
     def app(self):
         return self.get_application()
@@ -112,7 +114,7 @@ class MainWindow(Gtk.ApplicationWindow):
             row.show()
         except Exception as e:
             self._handle_exception(e)
-
+    
     def on_dir_open(self, widget):
         endpoint_id = self.server_combo.get_active_id()
         if not endpoint_id:
@@ -465,4 +467,9 @@ class MainWindow(Gtk.ApplicationWindow):
                           request_context)
             GLib.idle_add(self._set_files_listbox_row_status,
                           request_context)
+
+    def _test_db_connection(self):
+        dao = DaoBase()
+        result, message, values = dao.test_connection()
+        self._show_alert_dialog("Test di connessione al database", message)
 

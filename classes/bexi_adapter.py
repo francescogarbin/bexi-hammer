@@ -16,21 +16,25 @@ class BEXiAdapter:
 
     def get_token(self):
         try:
-            response = req.get(self._token_url,
+            response = req.post(self._token_url,
+                               headers={'Content-Type':"application/x-www-form-urlencoded"},
                                data=self._credentials,
                                timeout=BEXiAdapter.TIMEOUT_SETTINGS)
+            #response = req.get(self._token_url,
+            #                   data=self._credentials,
+            #                   timeout=BEXiAdapter.TIMEOUT_SETTINGS)
             response.raise_for_status()
             return response.json()
         except req.exceptions.HTTPError as httpex:
-            raise Exception(BEXiAdapter.MSG_HTTP_ERR.format(str(httpex)))
+            print(httpex) #raise Exception(BEXiAdapter.MSG_HTTP_ERR.format(str(httpex)))
         except req.exceptions.Timeout as timeoutex:
-            raise Exception(BEXiAdapter.MSG_TIMEOUT_ERR.format(str(timeoutex)))
+            print(timeoutex) #raise Exception(BEXiAdapter.MSG_TIMEOUT_ERR.format(str(timeoutex)))
         except req.exceptions.TooManyRedirects as redirex:
-            raise Exception(BEXiAdapter.MSG_REDIRECT_ERR.format(str(redirex)))
+            print(redirex) #raise Exception(BEXiAdapter.MSG_REDIRECT_ERR.format(str(redirex)))
         except req.exceptions.RequestException as reqex:
-            raise Exception(BEXiAdapter.MSG_GENERIC_ERR.format(str(reqex)))
+            print(reqex) #raise Exception(BEXiAdapter.MSG_GENERIC_ERR.format(str(reqex)))
         except Exception as e:
-            raise Exception(BEXiAdapter.MSG_GENERIC_ERR.format(str(e)))
+            print(e)  #raise Exception(BEXiAdapter.MSG_GENERIC_ERR.format(str(e)))
 
     def start_new_task(self, json_token, json_body):
         try:        
