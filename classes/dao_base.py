@@ -17,19 +17,23 @@ class DaoBase:
 
     def open_connection(self):
         if self.conn is None:
-            log.debug("Opening database connection to server {}...".format(self.Server))
-            self.conn = pytds.connect(self.Server, self.Database, self.Username, self.Password, as_dict=True)
+            log.debug("Connecting to database {}...".format(self.Server))
+            self.conn = pytds.connect(self.Server,
+                                      self.Database,
+                                      self.Username,
+                                      self.Password,
+                                      as_dict=True)
         
     def close_connection(self):
         if self.conn is not None:
-            log.debug("Closing database connection to server {}...".format(self.Server))
+            log.debug("Disconnecting from database {}...".format(self.Server))
             self.conn.close()
         self.conn = None
 
     def test_connection(self):
         self.open_connection()
         if self.conn is None:
-            return False, "Connection is not open, open connection first.", None
+            return False, "Database not connected", None
         sql = ("select top 20 * from [IBex_Base].[BX_Msg] M"
                " order by M.InsertDt desc;")
         cursor = self.conn.cursor()
@@ -48,3 +52,4 @@ class DaoBase:
         cursor.close()
         self.close_connection()
         return True, "Connection open, data fetch successful.", values
+
